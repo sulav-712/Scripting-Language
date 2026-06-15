@@ -94,7 +94,7 @@
 
 
   <script>
-    var menuItems = [
+    let menuItems = [
       {id: 1, name: "Veg Momo", price: 120, category: "Snacks", stock: 10},
       {id: 2, name: "Chicken Momo", price: 150, category: "Snacks", stock: 8},
       {id: 3, name: "Veg Burger", price: 100, category: "Snacks", stock: 15},
@@ -103,19 +103,22 @@
       {id: 6, name: "Chicken Pizza", price: 350, category: "Main Course", stock: 4}
     ];
 
-    var tray = [];
+    let tray = [];
 
+
+
+    // Set Cookie functions
     function setCookie(name, value, days) {
-      var d = new Date();
+      let d = new Date();
       d.setTime(d.getTime() + days*24*60*60*1000);
       document.cookie = name + "=" + value + ";expires=" + d.toUTCString() + ";path=/";
     }
 
 
     function getCookie(name) {
-      var cookies = document.cookie.split(';');
-      for(var i = 0; i < cookies.length; i++) {
-        var c = cookies[i].trim();
+      let cookies = document.cookie.split(';');
+      for(let i = 0; i < cookies.length; i++) {
+        let c = cookies[i].trim();
         if (c.indexOf(name + "=") === 0) {
           return c.substring(name.length + 1);
         }
@@ -123,14 +126,14 @@
       return "";
     }
 
-    var savedName = getCookie("customerName");
+    let savedName = getCookie("customerName");
     if (savedName) {
       document.getElementById("welcomeOverlay").style.display = "none"; 
       document.getElementById("greetMsg").textContent = "Namaste, " + savedName + "! Welcome back!";
     }
 
     document.getElementById("saveName").addEventListener("click", function() {
-      var nameVal = document.getElementById("nameInput").value.trim();
+      let nameVal = document.getElementById("nameInput").value.trim();
       if (nameVal === "") {
         alert("Please enter your name!");
         return;
@@ -141,10 +144,10 @@
     });
 
     function updateClock() {
-      var now = new Date();
-      var h = now.getHours().toString().padStart(2, '0');
-      var m = now.getMinutes().toString().padStart(2, '0');
-      var s = now.getSeconds().toString().padStart(2, '0');
+      let now = new Date();
+      let h = now.getHours().toString().padStart(2, '0');
+      let m = now.getMinutes().toString().padStart(2, '0');
+      let s = now.getSeconds().toString().padStart(2, '0');
       document.getElementById("clock").textContent = h + ":" + m + ":" + s;
     }
     setInterval(updateClock, 1000);
@@ -152,30 +155,30 @@
 
 
     function renderMenu() {
-      var container = document.getElementById("menuContainer");
+      let container = document.getElementById("menuContainer");
       container.innerHTML = "";
 
-      var categories = {};
-      for (var i = 0; i < menuItems.length; i++) {
-        var item = menuItems[i];
+      let categories = {};
+      for (let i = 0; i < menuItems.length; i++) {
+        let item = menuItems[i];
         if (!categories[item.category]) {
           categories[item.category] = [];
         }
         categories[item.category].push(item);
       }
 
-      for (var cat in categories) {
-        var heading = document.createElement("h3");
+      for (let cat in categories) {
+        let heading = document.createElement("h3");
         heading.textContent = "--- " + cat + " ---";
         container.appendChild(heading);
 
-        var items = categories[cat];
-        for (var j = 0; j < items.length; j++) {
-          var it = items[j];
+        let items = categories[cat];
+        for (let j = 0; j < items.length; j++) {
+          let it = items[j];
 
-          var p = document.createElement("p");
+          let p = document.createElement("p");
 
-          var stockText = "";
+          let stockText = "";
           if (it.stock === 0) {
             stockText = " (Out of Stock)";
             p.style.color = "red";
@@ -188,7 +191,7 @@
 
           p.innerHTML = "<b>" + it.name + "</b> - Rs. " + it.price + stockText + " ";
 
-          var btn = document.createElement("button");
+          let btn = document.createElement("button");
           btn.textContent = "Add";
           btn.disabled = (it.stock === 0);
           btn.onclick = (function(id) {
@@ -203,8 +206,8 @@
 
 
     function addToTray(itemId) {
-      var found = null;
-      for (var i = 0; i < menuItems.length; i++) {
+      let found = null;
+      for (let i = 0; i < menuItems.length; i++) {
         if (menuItems[i].id === itemId) {
           found = menuItems[i];
           break;
@@ -227,9 +230,9 @@
 
 
     function removeFromTray(index) {
-      var removedItem = tray[index];
+      let removedItem = tray[index];
 
-      for (var i = 0; i < menuItems.length; i++) {
+      for (let i = 0; i < menuItems.length; i++) {
         if (menuItems[i].id === removedItem.id) {
           menuItems[i].stock++;
           break;
@@ -244,7 +247,7 @@
 
 
     function renderTray() {
-      var trayDiv = document.getElementById("trayItems");
+      let trayDiv = document.getElementById("trayItems");
       trayDiv.innerHTML = "";
 
       if (tray.length === 0) {
@@ -252,12 +255,12 @@
         return;
       }
 
-      for (var i = 0; i < tray.length; i++) {
-        var item = tray[i];
-        var p = document.createElement("p");
+      for (let i = 0; i < tray.length; i++) {
+        let item = tray[i];
+        let p = document.createElement("p");
         p.innerHTML = (i + 1) + ". " + item.name + " - Rs. " + item.price + " ";
 
-        var removeBtn = document.createElement("button");
+        let removeBtn = document.createElement("button");
         removeBtn.textContent = "Remove";
         removeBtn.onclick = (function(idx) {
           return function() { removeFromTray(idx); };
@@ -269,16 +272,16 @@
     }
 
     function calculateBilling() {
-      var subtotal = 0;
-      for (var i = 0; i < tray.length; i++) {
+      let subtotal = 0;
+      for (let i = 0; i < tray.length; i++) {
         subtotal += tray[i].price;
       }
-      var vat = subtotal * 0.13;
-      var discount = 0;
+      let vat = subtotal * 0.13;
+      let discount = 0;
       if (subtotal > 500) {
         discount = subtotal * 0.1;
       }
-      var grandTotal = (subtotal + vat) - discount;
+      let grandTotal = (subtotal + vat) - discount;
 
       document.getElementById("subtotal").textContent = "Rs. " + subtotal.toFixed(2);
       document.getElementById("vat").textContent = "Rs. " + vat.toFixed(2);
@@ -306,14 +309,14 @@
 
 
     function validateForm() {
-      var phone = document.getElementById("phone").value.trim();
-      var email = document.getElementById("email").value.trim();
-      var tableNo = parseInt(document.getElementById("tableNum").value);
+      let phone = document.getElementById("phone").value.trim();
+      let email = document.getElementById("email").value.trim();
+      let tableNo = parseInt(document.getElementById("tableNum").value);
 
-      var phoneRegex = /^9\d{9}$/;
-      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      let phoneRegex = /^9\d{9}$/;
+      let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-      var valid = true;
+      let valid = true;
       if (!phoneRegex.test(phone)) {
         showError("phoneError", true);
         valid = false;
@@ -349,37 +352,37 @@
         return;
       }
 
-      var confirmed = window.confirm("Are you sure you want to place the order?");
+      let confirmed = window.confirm("Are you sure you want to place the order?");
 
       if (!confirmed) return;
 
-      var phone = document.getElementById("phone").value.trim();
-      var email = document.getElementById("email").value.trim();
-      var tableNo = document.getElementById("tableNum").value;
-      var custName = getCookie("customerName") || "Guest";
+      let phone = document.getElementById("phone").value.trim();
+      let email = document.getElementById("email").value.trim();
+      let tableNo = document.getElementById("tableNum").value;
+      let custName = getCookie("customerName") || "Guest";
 
 
-      var subtotal = 0;
-      for (var i = 0; i < tray.length; i++) {
+      let subtotal = 0;
+      for (let i = 0; i < tray.length; i++) {
         subtotal += tray[i].price;
       }
 
-      var vat = subtotal * 0.13;
-      var discount = subtotal > 500 ? subtotal * 0.1 : 0;
-      var grand = (subtotal + vat) - discount;
+      let vat = subtotal * 0.13;
+      let discount = subtotal > 500 ? subtotal * 0.1 : 0;
+      let grand = (subtotal + vat) - discount;
 
-      var now = new Date();
-      var dateStr = now.toLocaleString();
+      let now = new Date();
+      let dateStr = now.toLocaleString();
 
 
-      var bodyHtml = "<p><b>Customer:</b> " + custName + "</p>" +
+      let bodyHtml = "<p><b>Customer:</b> " + custName + "</p>" +
                       "<p><b>Table No:</b> " + tableNo + "</p>" +
                       "<p><b>Date:</b> " + dateStr + "</p><hr>" + 
                       "<b>Items Ordered:</b><br>";
 
 
 
-      for (var j = 0; j < tray.length; j++) {
+      for (let j = 0; j < tray.length; j++) {
         bodyHtml += (j + 1) + ". " + tray[j].name + " - Rs. " + tray[j].price + "<br>";
       }
 
