@@ -115,6 +115,8 @@
     }
 
 
+
+    // Get Cookie function
     function getCookie(name) {
       let cookies = document.cookie.split(';');
       for(let i = 0; i < cookies.length; i++) {
@@ -143,6 +145,8 @@
       document.getElementById("welcomeOverlay").style.display = "none";
     });
 
+
+    // Update Clock function
     function updateClock() {
       let now = new Date();
       let h = now.getHours().toString().padStart(2, '0');
@@ -154,6 +158,8 @@
     updateClock();
 
 
+
+    // Render Menu function
     function renderMenu() {
       let container = document.getElementById("menuContainer");
       container.innerHTML = "";
@@ -205,6 +211,8 @@
     }
 
 
+
+    // Tray Management functions
     function addToTray(itemId) {
       let found = null;
       for (let i = 0; i < menuItems.length; i++) {
