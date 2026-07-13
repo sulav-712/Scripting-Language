@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Kitchen</title>
+</head>
+<body>
+
+
+  <!-- Welcome Section -->
+  <div id="welcomeOverlay">
+    <h2>Smart Kitchen Kiosk</h2>
+    <p>Welcome! Please enter your name.</p>
+    <input type="text" id="nameInput" placeholder="Your name..." maxlength="20">
+    <br>
+    <br>
+    <button id="saveName">Let's Order</button>
+    <hr>
+  </div>
+  
+
+  <!-- Header -->
+  <h1>Smart Kitchen Kiosk</h1>
+  <p id="greetMsg">Hello, Guest!</p>
+  <p>Current Time: <span id="clock">--:--:--</span></p>
+  <button onclick="logout()">Logout</button>
+  <hr>
+
+  <table width="100%" border="0">
+    <tr valign="top">
+    
+      <!-- Menu Section -->
+      <td width="65%">
+        <h2>Our Menu</h2>
+        <div id="menuContainer"></div>
+      </td>
+
+
+      <!-- Sidebar Tray -->
+      <td width="35%" style="border-left: 1px solid black; padding-left: 15px;">
+        <h2>Your Tray</h2>
+        <div id="trayItems"><p>No items added yet.</p></div>
+
+
+        <hr>
+        <h3>Bill Summary</h3>
+        <table border="1" cellpadding="5">
+          <tr><td>Subtotal</td><td id="subtotal">Rs. 0</td></tr>
+          <tr><td>VAT (13%)</td><td id="vat">Rs. 0</td></tr>
+          <tr><td>Discount (10%)</td><td id="discount">Rs. 0</td></tr>
+          <tr><td><b>Grand Total</b></td><td><b><span id="grandTotal">Rs. 0</span></b></td></tr>
+        </table>
+
+
+
+        <hr>
+        <h3>Checkout</h3>
+        <label>Phone Number:</label><br>
+        <input type="text" id="phone" placeholder="98XXXXXXXXX" maxlength="10"><br><br>
+        <span id="phoneError" style="color: red; display: none;">Must be 10 digits and start with 9.</span><br>
+
+
+        <label>Email: </label><br>
+        <input type="text" id="email" placeholder="you@email.com"><br>
+        <span id="emailError" style="color: red; display: none;">Enter a valid email address.</span><br><br>
+
+        <label>Table Number (1-20):</label><br>
+        <input type="number" id="tableNum" placeholder="e.g. 5" min="1" max="20"><br><br>
+        <span id="tableError" style="color: red; display: none;">Table number must be between 1 and 20.</span><br>
+
+        <button id="placeOrderBtn">Place Order</button>
+      </td>
+
+   
+
+    </tr>
+  </table>
+
+
+  <!-- Hidden Print Receipt -->
+   <div id="receipt" style="display: none;">
+    <h2>---Smart Kitchen---</h2>
+    <p>Official Receipt</p>
+    <hr>
+    <div id="receiptBody"></div>
+    <hr>
+    <p id="receiptTotal"></p>
+    <p id="receiptInfo"></p>
+    <hr>
+    <p>Thank you! Come again!</p>
+  </div>
+
+
+
+  <script>
+    let menuItems = [
+      {id: 1, name: "Veg Momo", price: 120, category: "Snacks", stock: 10},
+      {id: 2, name: "Chicken Momo", price: 150, category: "Snacks", stock: 8},
+      {id: 3, name: "Veg Burger", price: 100, category: "Snacks", stock: 15},
+      {id: 4, name: "Chicken Burger", price: 130, category: "Snacks", stock: 12},
+      {id: 5, name: "Veg Pizza", price: 300, category: "Main Course", stock: 5},
+      {id: 6, name: "Chicken Pizza", price: 350, category: "Main Course", stock: 4}
+    ];
+
+    let tray = [];
+
+
+
+    // Set Cookie functions
+    function setCookie(name, value, days) {
+      let d = new Date();
+      d.setTime(d.getTime() + days*24*60*60*1000);
+      document.cookie = name + "=" + value + ";expires=" + d.toUTCString() + ";path=/";
+    }
+
+
+
+    // Get Cookie function
+    function getCookie(name) {
+      let cookies = document.cookie.split(';');
+      for(let i = 0; i < cookies.length; i++) {
+        let c = cookies[i].trim();
+        if (c.indexOf(name + "=") === 0) {
+          return c.substring(name.length + 1);
+        }
+      }
+      return "";
+    }
+
+    let savedName = getCookie("customerName");
+    if (savedName) {
+      document.getElementById("welcomeOverlay").style.display = "none"; 
+      document.getElementById("greetMsg").textContent = "Namaste, " + savedName + "! Welcome back!";
+    }
+
+    document.getElementById("saveName").addEventListener("click", function() {
+      let nameVal = document.getElementById("nameInput").value.trim();
+      if (nameVal === "") {
+        alert("Please enter your name!");
+        return;
+      }
+      setCookie("customerName", nameVal, 7);
+      document.getElementById("greetMsg").textContent = "Namaste, " + nameVal + "! Welcome to Smart Kitchen!";
+      document.getElementById("welcomeOverlay").style.display = "none";
+    });
+
+
+    // Update Clock function
+    function updateClock() {
+      let now = new Date();
+      let h = now.getHours().toString().padStart(2, '0');
+      let m = now.getMinutes().toString().padStart(2, '0');
+      let s = now.getSeconds().toString().padStart(2, '0');
+      document.getElementById("clock").textContent = h + ":" + m + ":" + s;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+
+
+    // Render Menu function
+    function renderMenu() {
+      let container = document.getElementById("menuContainer");
+      container.innerHTML = "";
+
+      let categories = {};
+      for (let i = 0; i < menuItems.length; i++) {
+        let item = menuItems[i];
+        if (!categories[item.category]) {
+          categories[item.category] = [];
+        }
+        categories[item.category].push(item);
+      }
+
+      for (let cat in categories) {
+        let heading = document.createElement("h3");
+        heading.textContent = "--- " + cat + " ---";
+        container.appendChild(heading);
+
+        let items = categories[cat];
+        for (let j = 0; j < items.length; j++) {
+          let it = items[j];
+
+          let p = document.createElement("p");
+
+          let stockText = "";
+          if (it.stock === 0) {
+            stockText = " (Out of Stock)";
+            p.style.color = "red";
+          } else if (it.stock <= 3) {
+            stockText = " [Low stock: " + it.stock + "left]";
+
+          } else {
+            stockText = " [Stock: " + it.stock + "]";
+          }
+
+          p.innerHTML = "<b>" + it.name + "</b> - Rs. " + it.price + stockText + " ";
+
+          let btn = document.createElement("button");
+          btn.textContent = "Add";
+          btn.disabled = (it.stock === 0);
+          btn.onclick = (function(id) {
+            return function () { addToTray(id); };
+          }) (it.id);
+
+          p.appendChild(btn);
+          container.appendChild(p);
+        }
+      }
+    }
+
+
+
+    // Tray Management functions
+    function addToTray(itemId) {
+      let found = null;
+      for (let i = 0; i < menuItems.length; i++) {
+        if (menuItems[i].id === itemId) {
+          found = menuItems[i];
+          break;
+        }
+      }
+
+      if (!found) return;
+
+      if (found.stock === 0) {
+        alert("Sorry, " + found.name + " is out of stock!");
+        return;
+      }
+
+      found.stock--;
+      tray.push( { id: found.id, name: found.name, price: found.price} );
+      renderMenu();
+      renderTray();
+      calculateBilling();
+    }
+
+
+    function removeFromTray(index) {
+      let removedItem = tray[index];
+
+      for (let i = 0; i < menuItems.length; i++) {
+        if (menuItems[i].id === removedItem.id) {
+          menuItems[i].stock++;
+          break;
+        }
+      }
+
+      tray.splice(index, 1);
+      renderMenu();
+      renderTray();
+      calculateBilling();
+    }
+
+
+    function renderTray() {
+      let trayDiv = document.getElementById("trayItems");
+      trayDiv.innerHTML = "";
+
+      if (tray.length === 0) {
+        trayDiv.innerHTML = "<p>No items added yet.</p>";
+        return;
+      }
+
+      for (let i = 0; i < tray.length; i++) {
+        let item = tray[i];
+        let p = document.createElement("p");
+        p.innerHTML = (i + 1) + ". " + item.name + " - Rs. " + item.price + " ";
+
+        let removeBtn = document.createElement("button");
+        removeBtn.textContent = "Remove";
+        removeBtn.onclick = (function(idx) {
+          return function() { removeFromTray(idx); };
+        }) (i);
+
+        p.appendChild(removeBtn);
+        trayDiv.appendChild(p);
+      }
+    }
+
+    function calculateBilling() {
+      let subtotal = 0;
+      for (let i = 0; i < tray.length; i++) {
+        subtotal += tray[i].price;
+      }
+      let vat = subtotal * 0.13;
+      let discount = 0;
+      if (subtotal > 500) {
+        discount = subtotal * 0.1;
+      }
+      let grandTotal = (subtotal + vat) - discount;
+
+      document.getElementById("subtotal").textContent = "Rs. " + subtotal.toFixed(2);
+      document.getElementById("vat").textContent = "Rs. " + vat.toFixed(2);
+      document.getElementById("discount").textContent = "Rs. " + discount.toFixed(2);
+      document.getElementById("grandTotal").textContent = "Rs. " + grandTotal.toFixed(2);
+    }
+
+
+
+    function showError(id, show) {
+      document.getElementById(id).style.display = show ? "inline" : "none";
+    }
+
+
+    function logout() {
+      setCookie("customerName", "", -1);  // delete cookie by setting expiry to past
+      document.getElementById("welcomeOverlay").style.display = "block";
+      document.getElementById("greetMsg").textContent = "Hello, Guest!";
+  
+  // clear the tray too
+      tray = [];
+      renderTray();
+      calculateBilling();
+    }
+
+
+    function validateForm() {
+      let phone = document.getElementById("phone").value.trim();
+      let email = document.getElementById("email").value.trim();
+      let tableNo = parseInt(document.getElementById("tableNum").value);
+
+      let phoneRegex = /^9\d{9}$/;
+      let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      let valid = true;
+      if (!phoneRegex.test(phone)) {
+        showError("phoneError", true);
+        valid = false;
+      } else {
+        showError("phoneError", false);
+      }
+
+      if (!emailRegex.test(email)) {
+        showError("emailError", true);
+        valid = false;
+      } else {
+        showError("emailError", false);
+      }
+
+      if (isNaN(tableNo) || tableNo < 1 || tableNo > 100) {
+        showError("tableError", true);
+        valid = false;
+      } else {
+        showError("tableError", false);
+      }
+
+      return valid;
+    }
+
+
+    document.getElementById("placeOrderBtn").addEventListener("click", function() {
+      if (tray.length === 0) {
+        alert("Your tray is empty! Pkease add some items first.");
+        return;
+      }
+
+      if (!validateForm()) {
+        return;
+      }
+
+      let confirmed = window.confirm("Are you sure you want to place the order?");
+
+      if (!confirmed) return;
+
+      let phone = document.getElementById("phone").value.trim();
+      let email = document.getElementById("email").value.trim();
+      let tableNo = document.getElementById("tableNum").value;
+      let custName = getCookie("customerName") || "Guest";
+
+
+      let subtotal = 0;
+      for (let i = 0; i < tray.length; i++) {
+        subtotal += tray[i].price;
+      }
+
+      let vat = subtotal * 0.13;
+      let discount = subtotal > 500 ? subtotal * 0.1 : 0;
+      let grand = (subtotal + vat) - discount;
+
+      let now = new Date();
+      let dateStr = now.toLocaleString();
+
+
+      let bodyHtml = "<p><b>Customer:</b> " + custName + "</p>" +
+                      "<p><b>Table No:</b> " + tableNo + "</p>" +
+                      "<p><b>Date:</b> " + dateStr + "</p><hr>" + 
+                      "<b>Items Ordered:</b><br>";
+
+
+
+      for (let j = 0; j < tray.length; j++) {
+        bodyHtml += (j + 1) + ". " + tray[j].name + " - Rs. " + tray[j].price + "<br>";
+      }
+
+
+      document.getElementById("receiptBody").innerHTML = bodyHtml;
+      document.getElementById("receiptTotal").innerHTML = 
+        "Subtotal: Rs. " + subtotal.toFixed(2) + "<br>" +
+        "VAT (13%): Rs. " + vat.toFixed(2) + "<br>" +
+        (discount > 0 ? "Discount (10%): Rs. " + discount.toFixed(2) + "<br>" : "") +
+        "<b>Grand Total: Rs. " + grand.toFixed(2) + "</b>";
+
+      document.getElementById("receiptInfo").innerHTML =
+        "Phone: " + phone + "<br>Email: " + email;
+
+      window.print();
+
+
+      tray = [];
+      renderTray();
+      calculateBilling();
+      renderMenu();
+      document.getElementById("phone").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("tableNum").value = "";
+
+      alert("Order placed successfully! Thank you, " + custName + "!");
+    });
+
+
+    renderMenu();
+    calculateBilling();
+  </script>
+
+</body>
+</html>
