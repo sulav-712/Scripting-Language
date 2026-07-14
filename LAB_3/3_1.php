@@ -1,4 +1,5 @@
 <?php
+require_once 'value.php';
 
 class Book {
   private string $title;
@@ -27,13 +28,21 @@ class Book {
 
 
 $book1 = new Book();
-$book1->setDetails("Harry Potter", "J.K. Rowling", "Fiction", "A008");
+$accessionNo1 = "ACC-00" . $A;
+$book1->setDetails("Harry Potter", "J.K. Rowling", "Fiction", $accessionNo1);
 
 $book2 = new Book();
-$book2->setDetails("Advanced PHP", "Jane Smith", "Academic", "A002");
+$accessionNo2 = "ACC-00" . $B;
+$book2->setDetails("Advanced PHP", "Jane Smith", "Academic", $accessionNo2);
 
 $book3 = new Book();
-$book3->setDetails("PHP for Beginners", "Alice Johnson", "Academic", "A005");
+$title3 = "PHP for Beginners";
+$wordCount = count(array_filter(explode(" ", $title3)));
+
+if ($wordCount != ($C % 3) + 2) {
+  $title3 = "PHP Basics";
+}
+$book3->setDetails($title3, "Alice Johnson", "Academic", "A005");
 
 echo $book1->getDetails() . PHP_EOL;
 echo $book2->getDetails() . PHP_EOL;
