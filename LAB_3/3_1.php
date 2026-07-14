@@ -27,13 +27,13 @@ class Book {
 
 
 $book1 = new Book();
-$book1->setDetails("PHP Basics", "John Doe", "Programming", "A008");
+$book1->setDetails("Harry Potter", "J.K. Rowling", "Fiction", "A008");
 
 $book2 = new Book();
 $book2->setDetails("Advanced PHP", "Jane Smith", "Academic", "A002");
 
 $book3 = new Book();
-$book3->setDetails("PHP for Beginners", "Alice Johnson", "Programming", "A005");
+$book3->setDetails("PHP for Beginners", "Alice Johnson", "Academic", "A005");
 
 echo $book1->getDetails() . PHP_EOL;
 echo $book2->getDetails() . PHP_EOL;
