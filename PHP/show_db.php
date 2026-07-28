@@ -31,7 +31,7 @@ if ($result = $mysqli->query($sql)) {
   echo "</table>
   </body>
   </html>
-    "
+    ";
 }
 
 ?> 
