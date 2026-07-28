@@ -18,7 +18,20 @@ if ($result = $mysqli->query($sql)) {
   </head>
   <body>
     <h1>Database List</h1>
+    <table border='1'>
+      <tr>
+        <th>Database Name</th>
+      </tr>"
+;
+  while ($row = $result->fetch_assoc()) {
+    echo "<tr>";
+    echo "<td>" . $row["Database"] . "</td>";
+    echo "</tr>";
+  }
+  echo "</table>
+  </body>
+  </html>
     "
 }
 
-?>
+?> 
