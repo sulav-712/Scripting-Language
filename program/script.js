@@ -32,5 +32,5 @@ async function checkData() {
   }
 
   const data = await response.json();
-  message
+  message.textContent = data.message;
 }
