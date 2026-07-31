@@ -1,7 +1,6 @@
 <?php
 
-$A = 8;
-$B = 5;
+require_once 'value.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $fullname = $_POST['fullname'] ?? '';
