@@ -977,9 +977,15 @@ order by rental_rate desc
 limit 10;
 
 -- Listing all customers living in the city London
-select * from city;
+select concat(cu.first_name, ' ', cu.last_name) as full_name
+from customer cu
+join address ad
+on ad.address_id = cu.address_id
+join city ci
+on ci.city_id = ad.city_id
+where ci.city = 'London';
 
-desc customer;
+select * from address;
 
 -- Displaying all films whose rental duration is greater than 5 days.  
 select title, rental_duration from film where rental_duration > 5;
@@ -1028,7 +1034,6 @@ on fc.category_id = c.category_id
 group by c.category_id;
 
 -- Finding the total number of rentals made by each customer.
-explain analyze
 select c.first_name, c.last_name, count(*) as total_rentals
 from rental r
 join customer c
@@ -1044,8 +1049,172 @@ join category c
 on fc.category_id = c.category_id
 group by c.category_id;
 
--- List all staff members along with the store they work in. 
-select * from staff;
+-- Listing all staff members along with the store they work in. 
+select first_name, last_name, store_id from staff;
 
-select * from store;
+-- Finding the total payment collected by each staff member. 
+select s.first_name, s.last_name, sum(p.amount) as total_payment_collected 
+from payment p
+join staff s
+on s.staff_id = p.staff_id
+group by p.staff_id;
+
+-- Displaying the number of customers living in each country. 
+select co.country, count(*) as total_no_of_customers from customer cu
+join address ad
+on ad.address_id = cu.address_id
+join city ci
+on ci.city_id = ad.city_id
+join country co
+on co.country_id = ci.country_id
+group by co.country_id;
+
+-- Listing all actors along with the number of films they have acted
+select concat(first_name, ' ', last_name) as full_name, count(*) as total_number_of_films from film_actor fa
+join actor a
+on a.actor_id = fa.actor_id
+group by fa.actor_id;
+
+-- Find the top 5 customers who have spent the highest total payment. 
+select concat(cu.first_name, ' ', cu.last_name) as full_name, sum(amount) as total_payment from payment p
+join customer cu
+on cu.customer_id = p.customer_id
+group by p.customer_id
+order by total_payment desc
+limit 5;
+
+
+
+-- Advanced Level
+-- Finding the customer(s) who made the highest total payment.  
+with customers as (
+select 
+	concat(c.first_name, ' ', c.last_name) as full_name,
+    sum(p.amount) as total_payments
+from customer c
+join payment p on p.customer_id = c.customer_id
+group by p.customer_id
+), ranked_customers as (
+	select *,
+		rank() over(order by total_payments desc) rnk
+	from customers
+)
+select * from ranked_customers
+where rnk = 1;
+
+-- Displaying the top 10 most rented films. 
+select title, rental_duration from film
+order by rental_duration desc
+limit 10;
+
+
+-- Finding all actors who have acted in more than 20 films.
+select concat(a.first_name, ' ', a.last_name) as full_name, count(*) as total_films_acted from actor a
+join film_actor fa
+on fa.actor_id = a.actor_id
+group by fa.actor_id
+having total_films_acted > 20
+order by total_films_acted desc;
+
+
+-- List customers who have never rented any film.
+select concat(cu.first_name, ' ', cu.last_name) as full_name from customer cu
+left join rental r
+on r.customer_id = cu.customer_id
+where r.customer_id is null;
+
+
+-- Displaying each category along with its average film rental rate and average replacement cost.  
+select c.name, 
+	round(avg(f.rental_rate), 4) as avg_film_rental_rate, 
+	round(avg(f.replacement_cost), 4) as avg_replacement_cost
+from film f
+join film_category fc
+on fc.film_id = f.film_id
+join category c
+on c.category_id = fc.category_id
+group by fc.category_id;
+
+
+-- Ranking customers based on their total payment using a window function.  
+with customer_total as (
+	select concat(c.first_name, ' ', c.last_name) as full_name,
+			sum(p.amount) as total_payment
+	from customer c
+    join payment p
+    on p.customer_id = c.customer_id
+    group by p.customer_id
+)
+select *, rank() over(order by total_payment desc) as rank_of_customer
+from customer_total
+order by rank_of_customer asc;
+
+
+-- Finding the longest film in each category. 
+select 
+	t.name as category_name,
+    t.title as film_title,
+    t.length
+from (
+	select
+		c.name,
+		f.title,
+		f.length,
+        rank() over(partition by c.category_id order by f.length desc) as rnk
+	from film f
+    join film_category fc
+    on fc.film_id = f.film_id
+    join category c
+    on c.category_id = fc.category_id
+) t
+where rnk = 1
+order by category_name;
+
+-- Displaying the running total of daily payments ordered by payment date.  
+with daily as(
+select 
+	date(payment_date) as payment_day,
+    sum(amount) as daily_total
+from payment
+group by payment_day
+)
+select
+	payment_day, 
+    daily_total,
+    sum(daily_total) over(order by payment_day asc rows between unbounded preceding and current row) as running_total
+from daily
+order by payment_day;
+
+
+-- Using a Common Table Expression (CTE), find the top 5 customers by total spending and display their rental count.  
+with customer_spending as (
+select 
+	concat(c.first_name, ' ', c.last_name) as full_name,
+    sum(p.amount) as total_spending,
+    count(r.rental_id) as rental_count
+from customer c
+join payment p on p.customer_id = c.customer_id
+join rental r on r.rental_id = p.rental_id
+group by c.customer_id
+)
+select full_name,
+		total_spending,
+        rental_count
+from customer_spending
+order by total_spending desc
+limit 5;
+
+
+-- Finding the most popular film category based on the total number of rentals. 
+select
+	c.name as category_name,
+    count(r.rental_id) as total_rentals
+from category c
+join film_category fc on fc.category_id = c.category_id
+join film f on f.film_id = fc.film_id
+join inventory i on i.film_id = f.film_id
+join rental r on r.inventory_id = i.inventory_id
+group by c.name
+order by total_rentals desc
+limit 1;
 
