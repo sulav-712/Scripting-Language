@@ -51,9 +51,7 @@ if (!$result) {
     die("Query failed: " . $conn->error);
 }
 
-?>
-
-
+?> 
 <!DOCTYPE html>
 <html lang="en">
 <head>

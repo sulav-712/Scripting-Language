@@ -76,7 +76,6 @@ $youngestName = $youngestRow['name'];
 
 
 
-
 $maxSQL = "SELECT MAX(age) AS max_age FROM students";
 $maxResult = $conn->query($maxSQL);
 

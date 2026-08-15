@@ -1,6 +1,6 @@
 <?php
 
-require
+require_once 'value.php';
 
 $conn = new mysqli("localhost", "root", "", "lab_mysql");
 
