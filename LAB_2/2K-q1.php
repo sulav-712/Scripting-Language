@@ -8,11 +8,6 @@ if ($conn->connect_error) {
     die("Database connection failed: " . $conn->connect_error);
 }
 
-$A = 8;
-$B = 5;
-$C = 0;
-$D = 3;
-
 $title = "2K-Q1 Joins — " . $A . "v" . $B;
 $cellPadding = $D + 2;
 
