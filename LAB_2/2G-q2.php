@@ -78,7 +78,7 @@ $conn = new mysqli("localhost", "root", "12345678", DB_NAME);
     mysqli_close($conn);
     }
     
-  }
+
   ?>
 </div>
   

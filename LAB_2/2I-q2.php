@@ -2,7 +2,7 @@
 
 require_once 'value.php';
 
-$conn = new mysqli("localhost", "root", "", "lab_mysql");
+$conn = new mysqli("localhost", "root", "12345678", "lab_mysql");
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
