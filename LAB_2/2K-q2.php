@@ -1,13 +1,11 @@
 <?php
-
-require_once
+require_once 'value.php';
 
 $conn = new mysqli("localhost", "root", "12345678", "lab_mysql");
 
 if ($conn->connect_error) {
     die("Database connection failed: " . $conn->connect_error);
 }
-
 
 $title = "2K-Q2: Student" . $A . $B . $C . $D;
 $fallbackScholarship = $D * 1000;
