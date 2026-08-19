@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3G-Q1 by Sulav</title>
+</head>
+<body>
+    <h1>Number Facts Checker</h1>
+
+    <label for="numInput">Enter a number:</label>
+    <input
+        type="text"
+        id="numInput"
+        placeholder="Enter a number (hint: A*B = 40)"
+    />
+    <button id="getFactBtn">Fact for 15</button>
+
+    <div id="result"></div>
+    <div id="error"></div>
+
+    <script>
+        const numInput = document.getElementById('numInput');
+        const getFactBtn = document.getElementById('getFactBtn');
+        const resultDiv = document.getElementById('result');
+        const errorDiv = document.getElementById('error');
+
+        getFactBtn.addEventListener('click', () => {
+            const numValue = numInput.value.trim();
+
+            resultDiv.textContent = '';
+            errorDiv.textContent = '';
+
+            const url = '3G-q1-api.php?num=' + encodeURIComponent(numValue);
+
+            fetch(url, { method: 'GET' })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    resultDiv.textContent =
+                        'Category: ' + data.category + ' | Fact: ' + data.fact;
+                })
+                .catch(err => {
+                    errorDiv.textContent = 'Error: ' + err.message;
+                });
+        });
+    </script>
+</body>
+</html>
