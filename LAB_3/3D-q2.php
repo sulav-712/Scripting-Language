@@ -1,4 +1,6 @@
 <?php
+
+require_once 'value.php';
 interface PaymentMethod {
     public function processPayment(float $amount): string;
     public function getPaymentType(): string;
@@ -85,16 +87,13 @@ class CashOnDelivery implements PaymentMethod {
     }
 }
 
-// Replace these with your actual values
-$A = 2;
-$B = 3;
-$C = 4;
+
 $regNumber = str_pad("123456789", 16, "0", STR_PAD_LEFT);
 
-// Wallet provider rule
+
 $walletProvider = ($A % 2 === 0) ? "eSewa" : "Khalti";
 
-// Create objects
+
 $payments = [
     [new CreditCard(10000 + ($C * 100), "NPR", $regNumber), 10000 + ($C * 100)],
     [new DigitalWallet(5000 + ($A * 500), "NPR", $walletProvider), 5000 + ($A * 500)],
