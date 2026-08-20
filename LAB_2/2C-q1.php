@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "Name: $fullname \n";
     echo "Email: $email \n";
     echo "Age: $age \n";
-    echo "Course: $course \n>";
+    echo "Course: $course \n";
   }
   
 }
