@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3H-Q2 Registration — YOUR_NAME</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        form {
+            width: 350px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0 12px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 8px 12px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        #message {
+            color: green;
+            margin-top: 15px;
+        }
+
+        #error {
+            color: red;
+            margin-top: 15px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Student Registration</h2>
+
+    <form id="studentForm">
+        <label>Name</label>
+        <input type="text" id="name">
+
+        <label>Department</label>
+        <input type="text" id="dept">
+
+        <label>Semester</label>
+        <input type="text" id="semester">
+
+        <label>Score</label>
+        <input type="number" id="score" min="0" max="100" step="0.01">
+
+        <button type="submit" id="registerBtn">
+            Register 8.5.15.2
+        </button>
+
+        <button type="button" id="viewBtn">
+            View All Students
+        </button>
+    </form>
+
+    <div id="message"></div>
+    <div id="error"></div>
+    <div id="allStudents"></div>
+
+    <script>
+        const form = document.getElementById("studentForm");
+        const message = document.getElementById("message");
+        const error = document.getElementById("error");
+        const viewBtn = document.getElementById("viewBtn");
+        const allStudents = document.getElementById("allStudents");
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            message.textContent = "";
+            error.textContent = "";
+
+            const student = {
+                name: document.getElementById("name").value.trim(),
+                dept: document.getElementById("dept").value.trim(),
+                semester: document.getElementById("semester").value.trim(),
+                score: document.getElementById("score").value
+            };
+
+            try {
+                const response = await fetch("3H-q2-insert.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(student)
+                });
+
+                const data = await response.json();
+
+                if (data.status === "success") {
+                    message.textContent =
+                        "✓ " + data.message +
+                        " (ID: " + data.new_id + ")";
+
+                    form.reset();
+                } else {
+                    error.textContent =
+                        data.error || data.message;
+                }
+            } catch (err) {
+                error.textContent = "Network error. Please try again.";
+            }
+        });
+
+        viewBtn.addEventListener("click", async function() {
+            allStudents.innerHTML = "Loading...";
+
+            try {
+                const response =
+                    await fetch("3H-q1-search.php?q=");
+
+                const students = await response.json();
+
+                if (students.error) {
+                    allStudents.innerHTML =
+                        "<p>" + students.error + "</p>";
+                    return;
+                }
+
+                let output =
+                    "<h3>Total Students: " +
+                    students.length + "</h3>";
+
+                if (students.length === 0) {
+                    output += "<p>No students found.</p>";
+                } else {
+                    output += "<ul>";
+
+                    students.forEach(student => {
+                        output += `
+                            <li>
+                                ID: ${student.id} —
+                                ${student.name}
+                                (${student.dept}, ${student.semester})
+                                — Score: ${student.score}
+                            </li>
+                        `;
+                    });
+
+                    output += "</ul>";
+                }
+
+                allStudents.innerHTML = output;
+            } catch (err) {
+                allStudents.innerHTML =
+                    "<p>Unable to load student records.</p>";
+            }
+        });
+    </script>
+
+</body>
+</html>
