@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>3H-Q1 Search — Sulav</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 40px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px #ccc;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        #searchBox {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            box-sizing: border-box;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+        }
+
+        #resultCount {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        #resultsList {
+            padding-left: 20px;
+        }
+
+        #resultsList li {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f7f7f7;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Live Student Search</h2>
+
+        <input
+            type="text"
+            id="searchBox"
+            placeholder="Search student name (min 2 chars)..."
+            onkeyup="liveSearch()"
+        >
+
+        <p id="resultCount">Found 0 result(s)</p>
+
+        <ul id="resultsList">
+            <li>Start typing to search.</li>
+        </ul>
+    </div>
+
+    <script>
+    async function liveSearch() {
+        const searchBox = document.getElementById("searchBox");
+        const resultsList = document.getElementById("resultsList");
+        const resultCount = document.getElementById("resultCount");
+
+        const searchTerm = searchBox.value.trim();
+
+        resultsList.innerHTML = "";
+        resultCount.textContent = "Found 0 result(s)";
+
+        if (searchTerm.length < 1) {
+            resultsList.innerHTML = "<li>Start typing to search.</li>";
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                "3H-q1-search.php?q=" +
+                encodeURIComponent(searchTerm)
+            );
+
+            if (!response.ok && response.status !== 304) {
+                throw new Error("HTTP error: " + response.status);
+            }
+
+             if (response.status === 304) {
+            // Option A: show a message
+            resultCount.textContent = "No changes (cached response).";
+            resultsList.innerHTML = "<li>Using cached data.</li>";
+            return;
+
+            // Option B (advanced): keep previous results in a variable and reuse them.
+        }
+
+            const data = await response.json();
+
+            if (data.error) {
+                resultCount.textContent = data.error;
+                return;
+            }
+
+            resultCount.textContent =
+                "Found " + data.length + " result(s)";
+
+            if (data.length === 0) {
+                resultsList.innerHTML =
+                    "<li>No matches found.</li>";
+                return;
+            }
+
+            data.forEach(student => {
+                const listItem = document.createElement("li");
+
+                listItem.textContent =
+                    "ID: " + student.id +
+                    " — " + student.name +
+                    " (" + student.dept +
+                    ", " + student.semester +
+                    ") — Score: " + student.score;
+
+                resultsList.appendChild(listItem);
+            });
+
+        } catch (error) {
+            console.error("Search error:", error);
+
+            resultCount.textContent =
+                "Unable to load student records.";
+
+            resultsList.innerHTML =
+                "<li>An error occurred while searching.</li>";
+        }
+    }
+</script>
+
+</body>
+</html>

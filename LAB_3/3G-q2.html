@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3G-Q2</title>
+</head>
+<body>
+    <h1>Age Calculator</h1>
+
+    <label for="nameInput">Your Name:</label>
+    <input type="text" id="nameInput" placeholder="Enter name (min 5 chars)" />
+
+    <label for="yearInput">Birth Year:</label>
+    <input type="text" id="yearInput" />
+
+    <button id="calcBtn">Age calc for 2012</button>
+
+    <div id="result"></div>
+    <div id="error" style="color: red;"></div>
+
+    <script>
+        const nameInput = document.getElementById('nameInput');
+        const yearInput = document.getElementById('yearInput');
+        const calcBtn = document.getElementById('calcBtn');
+        const resultDiv = document.getElementById('result');
+        const errorDiv = document.getElementById('error');
+
+        calcBtn.addEventListener('click', async () => {
+            resultDiv.textContent = '';
+            errorDiv.textContent = '';
+
+            const nameValue = nameInput.value;
+            const yearValue = yearInput.value;
+
+            const body = JSON.stringify({
+                name: nameValue,
+                birthYear: yearValue
+            });
+
+            try {
+                const response = await fetch('3G-q2-api.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: body
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || data.error) {
+                    errorDiv.textContent = data.error || 'Something went wrong.';
+                } else {
+                    resultDiv.textContent = data.message;
+                }
+            } catch (err) {
+                errorDiv.textContent = 'Error: ' + err.message;
+            }
+        });
+    </script>
+</body>
+</html>
