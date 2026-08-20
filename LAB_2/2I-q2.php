@@ -132,7 +132,6 @@ Total Records: <?php echo $overallRow['total']; ?>
 
 Overall Average: <?php echo number_format($overallRow['overall_avg'], 2); ?>
 
-
 Top Scorer: <?php echo $topName; ?> — <?php echo number_format($topMarks, 2); ?> (<?php echo $topSubject; ?>)
 
 Grade Distribution:
