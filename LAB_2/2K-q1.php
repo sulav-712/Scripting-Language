@@ -21,7 +21,7 @@ if (!$conn->query($sql)) {
     die("Error inserting students: " . $conn->error);
 }
 
-$sql = "INSERT INTO grades (student_id, course, grade) VALUES
+$sql = "INSERT IGNORE INTO grades (student_id, course, grade) VALUES
     (1, 'PHP', 'A'),
     (1, 'MySQL', 'B'),
     (2, 'PHP', 'B'),

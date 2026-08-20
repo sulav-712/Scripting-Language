@@ -18,7 +18,7 @@ if (!in_array($joinType, ["All", "INNER only", "LEFT only"])) {
     $joinType = "All";
 }
 
-$sql = "INSERT INTO grades (student_id, course, grade) VALUES
+$sql = "INSERT IGNORE INTO grades (student_id, course, grade) VALUES
     (3, 'Python', 'A'),
     (4, 'Java', 'B')";
 
@@ -26,7 +26,7 @@ if (!$conn->query($sql)) {
     die("Error inserting grades: " . $conn->error);
 }
 
-$sql = "INSERT INTO scholarships (student_id, amount) VALUES
+$sql = "INSERT IGNORE INTO scholarships (student_id, amount) VALUES
     (1, 10000),
     (2, 8000),
     (3, 12000)";

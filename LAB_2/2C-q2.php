@@ -39,10 +39,10 @@ $hasParams = !empty($_GET);
 ===================================
           STUDENT PROFILE
 ===================================
-ID: <?php echo $id; ?>
-Name: <?php echo $name; ?>
-Age: <?php echo $age; ?>
-City: <?php echo $city; ?>
+ID: <?php echo $id . "\n"; ?>
+Name: <?php echo $name . "\n"; ?>
+Age: <?php echo $age . "\n"; ?>
+City: <?php echo $city ."\n"; ?>
       </pre>
     <?php endif; ?>
 </body>

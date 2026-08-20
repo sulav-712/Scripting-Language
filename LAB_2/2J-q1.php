@@ -31,7 +31,6 @@ if ((int)$row['total'] === 0) {
   }
 }
 
-
 $sql = "CREATE TABLE IF NOT EXISTS popular_majors (
     major_name VARCHAR(50) PRIMARY KEY
 )";
@@ -40,7 +39,6 @@ if (!$conn->query($sql)) {
     die("Error creating popular_majors: " . $conn->error);
 }
 
-// Insert popular majors
 $sql = "INSERT IGNORE INTO popular_majors (major_name) VALUES
     ('Computer Science'),
     ('Data Science')";
@@ -48,7 +46,6 @@ $sql = "INSERT IGNORE INTO popular_majors (major_name) VALUES
 if (!$conn->query($sql)) {
     die("Error inserting popular majors: " . $conn->error);
 }
-
 
 $sql = "SELECT name, age, major
         FROM students
@@ -60,13 +57,9 @@ if (!$aboveAverage) {
     die("Error in above-average query: " . $conn->error);
 }
 
-
 $avgResult = $conn->query("SELECT AVG(age) AS average_age FROM students");
 $avgRow = $avgResult->fetch_assoc();
 $averageAge = $avgRow['average_age'];
-
-
-
 
 $sql = "SELECT name, major
         FROM students
@@ -80,7 +73,6 @@ $popularStudents = $conn->query($sql);
 if (!$popularStudents) {
     die("Error in popular majors query: " . $conn->error);
 }
-
 
 $sql = "SELECT name
         FROM students s
@@ -96,12 +88,9 @@ if (!$withoutScholarships) {
     die("Error in NOT EXISTS query: " . $conn->error);
 }
 
-
-
-
 $scholarshipAmount = 5000 + ($A * 1000);
 
-// Prevent duplicate scholarship for student ID 1
+
 $check = $conn->query(
     "SELECT COUNT(*) AS total
      FROM scholarships
@@ -120,15 +109,9 @@ if ((int)$checkRow['total'] === 0) {
     }
 }
 
-
-
 $sql = "SELECT s.name, sch.amount
         FROM students s
-        WHERE EXISTS (
-            SELECT 1
-            FROM scholarships sch
-            WHERE sch.student_id = s.id
-        )";
+        JOIN scholarships sch ON s.id = sch.student_id";
 
 $withScholarships = $conn->query($sql);
 
@@ -136,7 +119,6 @@ if (!$withScholarships) {
     die("Error in EXISTS query: " . $conn->error);
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -199,8 +181,6 @@ if (!$withScholarships) {
         </div>
     <?php endwhile; ?>
 </div>
-
-
 
      ===================================== -->
 <div class="section">

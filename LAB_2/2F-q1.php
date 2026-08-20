@@ -49,7 +49,7 @@ $showSessionId = ($D % 2 === 0);
    Session Visit Tracker
 ==============================
 <?php if ($showSessionId): ?>
-Session ID: <?php echo htmlspecialchars($sessionId); ?>
+Session ID: <?php echo htmlspecialchars($sessionId) . "\n"; ?>
 <?php endif; ?>
 You have visited this page <?php echo $visitCount; ?> times.
 ==============================

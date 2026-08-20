@@ -7,7 +7,7 @@ $themeCookieName = "theme_pref";
 $expiryCookieName = "theme_expiry" . $A;
 
 $message = "";
-$currentTime = "light";
+$currentTheme = "light";
 $expiryTimestamp = 0;
 
 if (isset($_POST['theme'])) {
@@ -105,7 +105,7 @@ if ($currentTheme === "dark") {
     </form>
 
     <pre>==============================
-     Theme: <?= htmlspecialchars($currentTheme) ?>
+     Theme: <?= htmlspecialchars($currentTheme) . "\n"?>
 ==============================
 Current time: <?= date("H:i:s") ?>
 Cookie expires in: <?= $remainingSeconds ?> seconds
