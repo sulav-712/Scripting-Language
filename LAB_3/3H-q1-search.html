@@ -94,18 +94,9 @@
                 encodeURIComponent(searchTerm)
             );
 
-            if (!response.ok && response.status !== 304) {
+            if (!response.ok) {
                 throw new Error("HTTP error: " + response.status);
             }
-
-             if (response.status === 304) {
-            // Option A: show a message
-            resultCount.textContent = "No changes (cached response).";
-            resultsList.innerHTML = "<li>Using cached data.</li>";
-            return;
-
-            // Option B (advanced): keep previous results in a variable and reuse them.
-        }
 
             const data = await response.json();
 
