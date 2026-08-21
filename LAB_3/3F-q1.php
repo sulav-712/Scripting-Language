@@ -21,7 +21,6 @@ class BankAccount {
     $this->isFrozen = false;
   }
 
-
   public function deposit(float $amount): void {
     if ($amount <= 0) {
       throw new InvalidAmountException("Deposit amount must be positive. Given: {$amount}");
@@ -62,11 +61,8 @@ class BankAccount {
 }
 
 $accountNo = "ACC-" . (100 + $A) . ($B + $C % 10);
-
 $holderName = "Ramesh";
-
 $initialBalance = 10000 + ($A * 1000);
-
 $account1 = new BankAccount($accountNo, $holderName, $initialBalance);
 
 try {
@@ -92,7 +88,6 @@ try {
 
 
 $account2 = new BankAccount("ACC-999999", "Sita", 10000);
-
 $withdrawAmount = 50000 + $C * 100;
 
 try {

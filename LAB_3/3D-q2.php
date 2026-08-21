@@ -87,7 +87,6 @@ class CashOnDelivery implements PaymentMethod {
     }
 }
 
-
 $regNumber = str_pad("123456789", 16, "0", STR_PAD_LEFT);
 $walletProvider = ($A % 2 === 0) ? "eSewa" : "Khalti";
 
