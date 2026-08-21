@@ -30,7 +30,6 @@ abstract class Vehicle {
   }
 }
 
-
 class Car extends Vehicle {
   private int $doors;
 
@@ -70,7 +69,6 @@ class Bike extends Vehicle {
   }
 }
 
-
 class Truck extends Vehicle {
   private float $loadCapacity; // in tons
 
@@ -103,9 +101,7 @@ foreach ($vehiclesArray as $vehicle) {
   echo "Max Speed: " . $vehicle->maxSpeed() . " km/h" . PHP_EOL . PHP_EOL;
 }
 
-echo $car->compare($bike) . PHP_EOL;
-echo $truck->compare($car) . PHP_EOL;
-
-
+echo $car->compare($bike) . "\n";
+echo $truck->compare($car) . "\n";
 ?>
 

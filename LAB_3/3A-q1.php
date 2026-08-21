@@ -1,8 +1,3 @@
- <!-- Name: Sulav Baskota 
-Symbol No. 52802182
-Date: 14/07/2026  -->
-
-
 <?php
 require_once 'value.php';
 
@@ -12,7 +7,6 @@ class Book {
   private string $genre;
   private string $accessionNo;
 
-
   public function setDetails(string $title, string $author, string $genre, string $accessionNo) : void {
     $this->title = $title;
     $this->author = $author;
@@ -20,17 +14,14 @@ class Book {
     $this->accessionNo = $accessionNo;
   }
 
-
   public function getDetails() : string {
-    return $this->accessionNo . ": " . $this->title . " by " . $this->author . " [" . $this->genre . "]";
+    return $this->accessionNo . ": " . $this->title . " by " . $this->author . " [" . $this->genre . "]" . "\n";
   }
-
 
   public function matchesGenre(string $genre) : bool {
     return $this->genre === $genre;
   }
 }
-
 
 $book1 = new Book();
 $accessionNo1 = "ACC-00" . $A;
@@ -49,13 +40,11 @@ if ($wordCount != ($C % 3) + 2) {
 }
 $book3->setDetails($title3, "Alice Johnson", "Academic", "A005");
 
-echo $book1->getDetails() . PHP_EOL;
-echo $book2->getDetails() . PHP_EOL;
-echo $book3->getDetails() . PHP_EOL;
+echo $book1->getDetails() . "\n";
+echo $book2->getDetails() . "\n";
+echo $book3->getDetails() . "\n";
 
-
-echo "Book 1 matches Fiction: " . ($book1->matchesGenre("Fiction") ? 1 : 0) . PHP_EOL;
-echo "Book 3 matches Academic: " . ($book3->matchesGenre("Academic") ? 1 : 0) . PHP_EOL;
-
+echo "Book 1 matches Fiction: " . ($book1->matchesGenre("Fiction") ? 1 : 0) . "\n";
+echo "Book 3 matches Academic: " . ($book3->matchesGenre("Academic") ? 1 : 0) . "\n";
 
 ?>

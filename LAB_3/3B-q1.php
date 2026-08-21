@@ -2,7 +2,6 @@
 
 require_once 'value.php';
 
-
 class BankAccount {
   public string $accountNumber;
   public string $holderName;
@@ -15,7 +14,6 @@ class BankAccount {
 
     echo "Account {$this->accountNumber} created for {$this->holderName} with Rs. {$this->balance} deposit.\n";
   }
-
 
   public function deposit(float $amount) : void {
     $this->balance += $amount;
@@ -42,7 +40,7 @@ class BankAccount {
 
 $accountNumber1 = "ACC-" . (1000 + $C);
 $initialDeposit = 5000 + ($A * 1000);
-$holderName = "Aarav";
+$holderName = "Sulululu";
 if (strlen($holderName) != $B) {
   echo "Error: Holder name must be exactly {$B} characters long.\n";
   exit;

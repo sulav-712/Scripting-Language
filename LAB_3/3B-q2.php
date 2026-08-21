@@ -8,7 +8,6 @@ class Enrollment {
   public string $semester;
   public float $fee;
 
-
   public static int $totalEnrollments = 0;
 
   public function __construct(string $studentName, string $courseCode, string $semester, float $fee) {
@@ -27,7 +26,6 @@ class Enrollment {
     echo "UNROLLED: {$this->studentName} {$this->courseCode}. Refund processed for Rs. {$this->fee}.\n";
   }
 }
-
 
 $firstName = "Aarav";
 

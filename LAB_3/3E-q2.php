@@ -18,7 +18,6 @@ class Product {
     $this->price = $initialPrice;
     $this->quantity = $initialQuantity;
 
-
     self::$productCount++;
     self::$totalValue += $initialPrice * $initialQuantity;
 
@@ -32,10 +31,8 @@ class Product {
     if (self::$productCount === 0) {
       return 0.0;
     }
-
     return self::$totalValue / self::$productCount;
   }
-
 
   public static function isNearCapacity(): bool {
     return self::$productCount >= self::WAREHOUSE_CAPACITY * 0.9;
@@ -75,5 +72,4 @@ echo $prod3->getInfo() . "\n";
 echo "Total products: " . Product::getProductCount() . "\n";
 echo "Average value: Rs. " . Product::getAverageValue() . "\n";
 echo "Is near capacity: " . (Product::isNearCapacity() ? "Yes" : "No") . "\n";
-
 ?>

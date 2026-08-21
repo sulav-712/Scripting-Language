@@ -1,7 +1,3 @@
-<!-- Name: Sulav Baskota
- Symbol No. 52802182
- Date: 14/07/2026-->
-
 <?php
 
 require_once 'value.php';
@@ -23,7 +19,6 @@ class Laptop {
     $this->price -= $this->price * ($percent / 100);
   }
 
-
   public function sell(int $quantity) : bool {
     if ($quantity <= $this->stock) {
       $this->stock -= $quantity;
@@ -38,7 +33,6 @@ class Laptop {
     return $this->brand . " " . $this->model . " Rs. " . $this->price . " (" . $this->stock . " in stock)"; 
   }
 }
-
 
 $Laptop1 = new Laptop("Dell", "XPS 13", 1500.00, 10);
 $Laptop2 = new Laptop("Apple", "MacBook Pro", 2000.00, 5);

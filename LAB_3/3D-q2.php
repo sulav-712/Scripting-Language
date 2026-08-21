@@ -89,10 +89,7 @@ class CashOnDelivery implements PaymentMethod {
 
 
 $regNumber = str_pad("123456789", 16, "0", STR_PAD_LEFT);
-
-
 $walletProvider = ($A % 2 === 0) ? "eSewa" : "Khalti";
-
 
 $payments = [
     [new CreditCard(10000 + ($C * 100), "NPR", $regNumber), 10000 + ($C * 100)],

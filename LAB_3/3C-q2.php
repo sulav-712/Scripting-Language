@@ -7,18 +7,15 @@ class Product {
   private string $code;
   protected float $price = 0;
 
-
   public function __construct(string $name, string $code, float $initialPrice) {
     $this->name = $name;
     $this->code = $code;
     $this->setPrice($initialPrice);
   }
 
-
   public function getCode() : string {
     return $this->code;
   }
-
 
   public function setPrice(float $amount) : void {
     if ($amount >= 100 && $amount <= 10000) {
@@ -28,17 +25,14 @@ class Product {
     }
   }
 
-
   public function getPrice() : float {
     return $this->price;
   }
-
 
   public function displayInfo() : string {
     return "[{$this->code}] {$this->name} Rs. {$this->price}";
   }
 }
-
 
 class VIPProduct extends Product {
   function __construct($name, $code, $basePrice, $vipMarkup) {
