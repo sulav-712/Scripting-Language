@@ -1,12 +1,11 @@
+/* A directory site passes user profile information through URL parameters. The PHP script reads these using $_GET and displays the profile. */
+
 <?php
-
 require_once 'value.php';
-
 
 $pageTitle = "Profile Viewer - " . ($A + $B) . "_" . $C;
 
 $hidddenId = "STU-" . $A . $B . $C;
-
 $name = isset($_GET['name']) ? htmlspecialchars($_GET['name']) : "Guest";
 $age = isset($_GET['age']) ? htmlspecialchars($_GET['age']) : "Unknown";
 $city = isset($_GET['city']) ? htmlspecialchars($_GET['city']) : "Unknown";
@@ -32,7 +31,6 @@ $hasParams = !empty($_GET);
       <input type="hidden" name="id" value="<?php echo $hidddenId; ?>"><br><br>
       <button type="submit">View Profile</button>
     </form>
-
 
     <?php else: ?>
       <pre>

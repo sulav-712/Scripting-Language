@@ -1,7 +1,5 @@
 <?php
-
 require_once 'value.php';
-
 
 define('SITE_NAME', "Lab 2D-q1 - Student" . $A);
 define('TIMEZONE', "Asia/Kathmandu");

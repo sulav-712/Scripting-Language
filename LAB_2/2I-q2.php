@@ -1,5 +1,6 @@
-<?php
+/* A professor wants a grade summary report showing how many students received each grade letter, the average score per grade, and the top performer. */
 
+<?php
 require_once 'value.php';
 
 $conn = new mysqli("localhost", "root", "12345678", "lab_mysql");
@@ -102,7 +103,6 @@ if ($D % 2 == 0) {
 } else {
     $topName = strtolower($topName);
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -112,7 +112,6 @@ if ($D % 2 == 0) {
     <title>Grade Summary Report</title>
 </head>
 <body>
-
 <pre>
 ================================
      Grade Summary Report
@@ -144,13 +143,10 @@ C (>=60): <?php echo $gradeRow['grade_c']; ?>
 D (>=40): <?php echo $gradeRow['grade_d']; ?>
 
 F (<40): <?php echo $gradeRow['grade_f']; ?>
-
 ================================
 </pre>
-
 <?php
 $conn->close();
 ?>
-
 </body>
 </html>

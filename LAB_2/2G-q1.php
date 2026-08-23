@@ -1,5 +1,6 @@
-<?php
+/* A developer needs a PHP tool that connects to MySQL and explores what databases and tables exist on the server. */
 
+<?php
 require_once 'value.php';
 
 $conn = new mysqli("localhost", "root", "12345678", "lab_mysql");
@@ -9,7 +10,6 @@ if ($conn->connect_error) {
 
 $border = ($B % 3) + 1;
 $highlightColor = ($A % 2 == 0) ? "yellow" : "lightblue";
-
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +19,6 @@ $highlightColor = ($A % 2 == 0) ? "yellow" : "lightblue";
     <title>2G-Q1 Explorer — Student<?php echo $A; ?></title>
 </head>
 <body>
-
 <h1>2G-Q1 Explorer — Student<?php echo $A; ?></h1>
 
 <h2>Databases:</h2>
@@ -85,10 +84,8 @@ while ($studentRow = mysqli_fetch_assoc($describeQuery)) {
 }
 ?>
 </table>
-
 <?php
 mysqli_close($conn);
 ?>
-
 </body>
 </html>

@@ -1,5 +1,6 @@
-<?php
+/* A website tracks how many times a user has visited different pages during their session using PHP sessions. */
 
+<?php
 require_once 'value.php';
 
 session_start();
@@ -13,7 +14,6 @@ if (isset($_GET['reset']) && $_GET['reset'] == '1') {
 
 if (!isset($_SESSION['username'])) {
   $_SESSION['username'] = "Student" . $A;
-
 }
 
 if (!isset($_SESSION['page_views'])) {
@@ -28,9 +28,7 @@ $_SESSION['page_views']['home']++;
 $visitCount = $_SESSION['page_views']['home'];
 $username = $_SESSION['username'];
 $sessionId = session_id();
-
 $showSessionId = ($D % 2 === 0);
-
 ?>
 
 <!DOCTYPE html>

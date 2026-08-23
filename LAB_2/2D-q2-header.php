@@ -13,11 +13,9 @@ require_once 'value.php';
 <body>
   <header>
     <h1><?php echo SITE_NAME; ?></h1>
-    
 
     <nav>
       <a href="2D-q2-home.php">Home (Page <?php echo $A; ?>)</a> |
       <a href="2D-q2-about.php">About (Page <?php echo $B; ?>)</a> |
-</nav>
-
+``</nav>
   </header>

@@ -1,5 +1,6 @@
-<?php
+/* A website needs a user registration page. The user fills in their details and submits the form. The PHP script receives the data via POST and displays a welcome message. */
 
+<?php
 require_once 'value.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -12,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $email = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
   $course = htmlspecialchars($course, ENT_QUOTES, 'UTF-8');
 
-
   $age = (int) $age;
 
   if ($age < 18) {
@@ -23,6 +23,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "Age: $age \n";
     echo "Course: $course \n";
   }
-  
 }
 ?>

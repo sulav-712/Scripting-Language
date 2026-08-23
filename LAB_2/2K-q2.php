@@ -1,4 +1,4 @@
-/* Question 2K: A reporting system needs to join students, grades, and scholarships tables to generate a comprehensive academic report with optional filters. */
+/* A reporting system needs to join students, grades, and scholarships tables to generate a comprehensive academic report with optional filters. */
 
 <?php
 require_once 'value.php';
@@ -150,9 +150,7 @@ if ($joinType === "All") {
         }
     </style>
 </head>
-
 <body>
-
 <h1><?= htmlspecialchars($title) ?></h1>
 
 <form method="GET">
@@ -178,12 +176,9 @@ if ($joinType === "All") {
 </form>
 
 <div class="section">
-
     <?php if ($joinType === "INNER only"): ?>
-
         <table border="1">
             <caption>Three-Table Join — INNER JOIN</caption>
-
             <tr>
                 <th>ID</th>
                 <th>Name</th>
@@ -201,14 +196,11 @@ if ($joinType === "All") {
                     <td><?= htmlspecialchars($row['scholarship']) ?></td>
                 </tr>
             <?php endwhile; ?>
-
         </table>
 
     <?php elseif ($joinType === "LEFT only"): ?>
-
         <table border="1">
             <caption>Three-Table Join — LEFT JOIN</caption>
-
             <tr>
                 <th>ID</th>
                 <th>Name</th>
@@ -230,14 +222,11 @@ if ($joinType === "All") {
                     <td><?= htmlspecialchars($row['scholarship']) ?></td>
                 </tr>
             <?php endwhile; ?>
-
         </table>
 
     <?php else: ?>
-
         <table border="1">
             <caption>Three-Table Join — LEFT JOIN</caption>
-
             <tr>
                 <th>ID</th>
                 <th>Name</th>
@@ -285,7 +274,6 @@ if ($joinType === "All") {
 
         <table border="1">
             <caption>Student Pairs Sharing a Major</caption>
-
             <tr>
                 <th>Student 1</th>
                 <th>Student 2</th>
@@ -293,7 +281,6 @@ if ($joinType === "All") {
             </tr>
 
             <?php if ($part3Result->num_rows > 0): ?>
-
                 <?php while ($row = $part3Result->fetch_assoc()): ?>
                     <tr>
                         <td><?= htmlspecialchars($row['student1']) ?></td>
@@ -303,22 +290,15 @@ if ($joinType === "All") {
                 <?php endwhile; ?>
 
             <?php else: ?>
-
                 <tr>
                     <td colspan="3">No students share the same major.</td>
                 </tr>
-
             <?php endif; ?>
-
         </table>
-
     <?php endif; ?>
-
 </div>
-
 </body>
 </html>
-
 <?php
 $conn->close();
 ?>

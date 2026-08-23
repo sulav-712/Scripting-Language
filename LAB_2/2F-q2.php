@@ -1,5 +1,6 @@
-<?php
+/* A website lets users choose between light and dark themes. The preference is stored in a cookie that expires in 30 minutes. */
 
+<?php
 require_once 'value.php';
 
 $durationMinutes = $A + $B;
@@ -79,7 +80,6 @@ if ($currentTheme === "dark") {
     </style>
 </head>
 <body>
-
     <h1>Theme Selector</h1>
 
     <?php if ($message !== ""): ?>
@@ -110,6 +110,5 @@ if ($currentTheme === "dark") {
 Current time: <?= date("H:i:s") ?>
 Cookie expires in: <?= $remainingSeconds ?> seconds
 ==============================</pre>
-
 </body>
 </html>

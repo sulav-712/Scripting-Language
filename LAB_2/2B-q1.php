@@ -1,5 +1,6 @@
-<?php
+/* A school needs a PHP script that takes an array of student marks, grades each one using conditional logic, and displays the results using loops. */
 
+<?php
 require_once 'value.php';
 
 $element0 = $A * 10 + 5;

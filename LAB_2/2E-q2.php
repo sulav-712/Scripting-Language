@@ -1,5 +1,6 @@
-<?php
+/* An admin tool allows uploading text files and viewing their contents. The system also maintains a log of all uploads. */
 
+<?php
 require_once 'value.php';
 
 $uploadDir = 'uploads/';
@@ -30,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['text_file'])) {
       $destination = $uploadDir . $name;
       if (move_uploaded_file($tmpName, $destination)) {
         $uploadedFileName = $name;
-        
 
         $logYear = (int)date('Y') + $B;
         $timestamp = date('Y-m-d H:i:s', strtotime("+$B years"));

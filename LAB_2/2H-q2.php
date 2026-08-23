@@ -1,5 +1,6 @@
-<?php
+/* A search tool lets users filter students by age range and major using an HTML form and PHP-MySQL queries. */
 
+<?php
 require_once 'value.php';
 
 $conn = new mysqli("localhost", "root", "12345678", "lab_mysql");
@@ -16,7 +17,6 @@ $max_age = "";
 $major = "All";
 
 $formSubmitted = isset($_GET['min_age']) || isset($_GET['max_age']) || isset($_GET['major']);
-
 
 if ($formSubmitted) {
     $min_age = isset($_GET['min_age']) ? $_GET['min_age'] : "";
@@ -43,14 +43,12 @@ if ($formSubmitted) {
   $where = "WHERE 1=1";
 }
 
-
 $sql = "SELECT * FROM students $where ORDER BY age ASC";
 $result = $conn->query($sql);
 
 if (!$result) {
     die("Query failed: " . $conn->error);
 }
-
 ?> 
 <!DOCTYPE html>
 <html lang="en">
@@ -58,12 +56,10 @@ if (!$result) {
     <meta charset="UTF-8">
     <title>2H-Q2 Student Finder — <?php echo $D; ?></title>
 </head>
-
 <body>
 
 <h1>2H-Q2 Student Finder — <?php echo $D; ?></h1>
 
-<!-- Search Form -->
 <form method="GET" action="">
 
     <label>Min Age:</label>
@@ -72,9 +68,7 @@ if (!$result) {
         name="min_age"
         placeholder="<?php echo $minPlaceholder; ?>"
         value="<?php echo htmlspecialchars($min_age); ?>"
-    >
-
-    <br><br>
+    ><br><br>
 
     <label>Max Age:</label>
     <input
@@ -82,9 +76,7 @@ if (!$result) {
         name="max_age"
         placeholder="<?php echo $maxPlaceholder; ?>"
         value="<?php echo htmlspecialchars($max_age); ?>"
-    >
-
-    <br><br>
+    ><br><br>
 
     <label>Major:</label>
     <select name="major">
@@ -113,14 +105,11 @@ if (!$result) {
     <button type="submit">
         <?php echo "Search Students " . $C; ?>
     </button>
-
 </form>
-
 <hr>
 
 <?php
 
-// Display number of results
 echo "<h3>Found " . $result->num_rows . " result(s)</h3>";
 
 if ($result->num_rows == 0) {
@@ -128,8 +117,6 @@ if ($result->num_rows == 0) {
     echo "<p>No students match your criteria.</p>";
 
 } else {
-
-    // Display results
     echo '<table border="1" cellpadding="6" cellspacing="0">';
 
     echo "<tr>";
@@ -153,13 +140,9 @@ if ($result->num_rows == 0) {
 
         echo "</tr>";
     }
-
     echo "</table>";
 }
-
 $conn->close();
-
 ?>
-
 </body>
 </html>

@@ -1,5 +1,6 @@
-<?php
+/* A tutor wants a PHP script that generates a customized multiplication table using nested loops and an associative array of multipliers. */
 
+<?php
 require_once 'value.php';
 
 $multipliers = [
@@ -38,7 +39,5 @@ foreach ($multipliers as $key => $value) {
       echo "(remainder 2)\n";
       break;
   }
-
 }
-
 ?>

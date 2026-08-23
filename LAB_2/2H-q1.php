@@ -1,5 +1,6 @@
-<?php
+/* An admin panel needs full CRUD (Create, Read, Update, Delete) functionality for a students table using PHP and MySQL. */
 
+<?php
 require_once 'value.php';
 
 $conn = new mysqli("localhost", "root", "12345678", "lab_mysql");
@@ -43,7 +44,6 @@ if ($A % 2 == 0) {
   $major3 = "Software Engineering";
 }
 
-
 $sql = "INSERT INTO students (name, age, major) VALUES ('$name3', $age3, '$major3')";
 
 if ($conn->query($sql)) {
@@ -52,7 +52,6 @@ if ($conn->query($sql)) {
 } else {
     die("Insert failed: " . $conn->error);
 }
-
 
 echo "<h3>=== All Students ===<h3>";
 
@@ -72,22 +71,16 @@ if ($result->num_rows == 0) {
         echo "<td>" . htmlspecialchars($row['major']) . "</td>";
         echo "</tr>";
     }
-
     echo "</table>";
 }
 
-
 $sql = "UPDATE students SET major = 'Artificial Intelligence' WHERE id = $id2";
-
 
 if ($conn->query($sql)) {
     echo "<p>✓ Updated " . $conn->affected_rows . " record(s).</p>";
 } else {
     die("Update failed: " . $conn->error);
 }
-
-
-
 $threshold = 25 + $D;
 
 $sql = "DELETE FROM students WHERE age > $threshold";
@@ -97,7 +90,6 @@ if ($conn->query($sql)) {
 } else {
     die("Delete failed: " . $conn->error);
 }
-
 
 echo "<h3>=== Updated Students ===</h3>";
 
@@ -120,7 +112,5 @@ if ($result->num_rows == 0) {
 
     echo "</table>";
 }
-
 $conn->close();
-
 ?>

@@ -1,5 +1,6 @@
-<?php
+/* A website wants to log every visitor's name and timestamp to a text file, then display all past visitors. */
 
+<?php
 require_once 'value.php';
 
 $guestbookFile = "guestbook-" . $A . ".txt";
@@ -11,11 +12,9 @@ if (isset($_POST['action']) && $_POST['action'] === "sign") {
 
   if ($rawMessage === '') {
     $messageStatus = "Error: Name is required.";
-
   } else {
     $name = htmlspecialchars($rawName, ENT_QUOTES, 'UTF-8');
     $message = htmlspecialchars($rawMessage, ENT_QUOTES, 'UTF-8');
-
     
     $timestamp = (date("Y") + $B) . date("-m-d H:i:s");
 
@@ -26,7 +25,6 @@ if (isset($_POST['action']) && $_POST['action'] === "sign") {
     $messageStatus = "Thank you. " . $name . "! Your message has been recorded.";
   }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +35,6 @@ if (isset($_POST['action']) && $_POST['action'] === "sign") {
   <title>Visitor Guestbook</title>
 </head>
 <body>
-
 <h1>Visitor Guestbook</h1>
 
 <?php if ($messageStatus !== ""): ?>
@@ -51,21 +48,17 @@ if (isset($_POST['action']) && $_POST['action'] === "sign") {
   <br><br>
 
   <label for="message">Message: </label>
-  <textarea id="message" name="message" rows="5" cols="30"></textarea>
-
-  <br><br>
+  <textarea id="message" name="message" rows="5" cols="30"></textarea><br><br>
 
   <input type="hidden" name="action" value="sign">
   <button type="submit">Sign Guestbook <?php echo $A; ?></button>
 
 </form>
-
 <hr>
 
 <h2>Guestbook Entries</h2>
 
 <?php
-
 if (file_exists($guestbookFile)) {
     $contents = file_get_contents($guestbookFile);
   $entries = trim($contents) === ''
@@ -76,10 +69,7 @@ if (file_exists($guestbookFile)) {
     echo '</pre>';
 
     echo "<p>Total entries: " . count($entries) . "</p>";
-}
-
-
-else {
+} else {
   echo "<p>No entries yet. Be the first to sign the guestbook!</p>";
   echo "<p>Total entries: 0</p>";
 }

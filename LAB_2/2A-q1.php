@@ -1,9 +1,9 @@
-<?php
+/* A college needs a simple PHP script to display student profile cards. Each card shows the student's name, age, course, and grade status — all generated using variables, constants, and operators. */
 
+<?php
 require_once 'value.php';
 
 define("COLLEGE_NAME", "TU BCA");
-
 
 $student_name = "Student" . $A;
 $age = 18 + $B;

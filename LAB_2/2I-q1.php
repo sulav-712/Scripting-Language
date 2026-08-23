@@ -1,5 +1,6 @@
-<?php
+/* A department head needs a statistics dashboard that shows aggregate data about students — total count, average age, oldest/youngest, and breakdown by major. */
 
+<?php
 require_once 'value.php';
 
 $conn = new mysqli("localhost", "root", "12345678", "lab_mysql");
@@ -93,7 +94,6 @@ $majorResult = $conn->query($majorSQL);
 if (!$majorResult) {
     die("Major query failed: " . $conn->error);
 }
-
 $threshold = $A % 2 + 1;
 
 $havingSQL = "
@@ -124,7 +124,6 @@ if (!$studentsResult) {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Student<?php echo $A; ?>'s Dashboard</title>
@@ -165,13 +164,9 @@ if (!$studentsResult) {
         }
     </style>
 </head>
-
 <body>
-
 <div class="dashboard">
-
 <div class="box">
-
 <h1>
     =================================<br>
     Student<?php echo $A; ?>'s Dashboard<br>
@@ -210,9 +205,7 @@ while ($row = $majorResult->fetch_assoc()) {
     echo number_format($row['avg_age'], 2);
     echo "<br>";
 }
-
 ?>
-
 <h2>
     4. Majors with more than
     <?php echo $threshold; ?>
@@ -220,11 +213,8 @@ while ($row = $majorResult->fetch_assoc()) {
 </h2>
 
 <?php
-
 if ($havingResult->num_rows == 0) {
-
     echo "No majors found.";
-
 } else {
 
     while ($row = $havingResult->fetch_assoc()) {
@@ -235,9 +225,7 @@ if ($havingResult->num_rows == 0) {
         echo ")<br>";
     }
 }
-
 ?>
-
 <h2>5. All students ordered by age (descending):</h2>
 
 <table>
@@ -248,9 +236,7 @@ if ($havingResult->num_rows == 0) {
     </tr>
 
 <?php
-
 while ($row = $studentsResult->fetch_assoc()) {
-
     echo "<tr>";
 
     echo "<td>";
@@ -273,9 +259,6 @@ while ($row = $studentsResult->fetch_assoc()) {
 </div>
 </body>
 </html>
-
 <?php
-
 $conn->close();
-
 ?>

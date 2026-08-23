@@ -1,5 +1,6 @@
-<?php
+/* A school wants to see a combined view of students and their grades. The dashboard should demonstrate all three join types (INNER, LEFT, RIGHT) and explain the differences */
 
+<?php
 require_once 'value.php';
 
 $conn = new mysqli("localhost", "root", "12345678", "lab_mysql");
@@ -113,9 +114,7 @@ $rightRows = $rightResult->num_rows;
         }
     </style>
 </head>
-
 <body>
-
 <h1><?= htmlspecialchars($title) ?></h1>
 
 <table border="1" cellpadding="<?= $cellPadding ?>">
@@ -180,7 +179,6 @@ $rightRows = $rightResult->num_rows;
 
 <div class="summary">
     <h2>=== JOIN Summary ===</h2>
-
     <p>
         INNER JOIN returned:
         <?= $innerRows ?> rows
@@ -199,10 +197,8 @@ $rightRows = $rightResult->num_rows;
         (all grades including orphans)
     </p>
 </div>
-
 </body>
 </html>
-
 <?php
 $conn->close();
 ?>

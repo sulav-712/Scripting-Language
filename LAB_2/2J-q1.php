@@ -1,5 +1,6 @@
-<?php
+/* A data analyst needs to find students who are above average age, and students who belong to specific majors using subqueries. */
 
+<?php
 require_once "value.php";
 
 $conn = new mysqli("localhost", "root", "12345678", "lab_mysql");
@@ -30,7 +31,6 @@ if ((int)$row['total'] === 0) {
     die("Error inserting students: " . $conn->error);
   }
 }
-
 $sql = "CREATE TABLE IF NOT EXISTS popular_majors (
     major_name VARCHAR(50) PRIMARY KEY
 )";
@@ -90,7 +90,6 @@ if (!$withoutScholarships) {
 
 $scholarshipAmount = 5000 + ($A * 1000);
 
-
 $check = $conn->query(
     "SELECT COUNT(*) AS total
      FROM scholarships
@@ -100,7 +99,6 @@ $check = $conn->query(
 $checkRow = $check->fetch_assoc();
 
 if ((int)$checkRow['total'] === 0) {
-
     $sql = "INSERT INTO scholarships (student_id, amount)
             VALUES (1, $scholarshipAmount)";
 
@@ -108,7 +106,6 @@ if ((int)$checkRow['total'] === 0) {
         die("Error inserting scholarship: " . $conn->error);
     }
 }
-
 $sql = "SELECT s.name, sch.amount
         FROM students s
         JOIN scholarships sch ON s.id = sch.student_id";
@@ -125,7 +122,6 @@ if (!$withScholarships) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title><?= htmlspecialchars($title) ?></title>
 
     <style>
@@ -148,11 +144,8 @@ if (!$withScholarships) {
         }
     </style>
 </head>
-
 <body>
-
 <h1><?= htmlspecialchars($title) ?></h1>
-
 
 <div class="section">
     <h2>=== Students Above Average Age ===</h2>
@@ -170,7 +163,6 @@ if (!$withScholarships) {
     <?php endwhile; ?>
 </div>
 
-
 <div class="section">
     <h2>=== Students in Popular Majors ===</h2>
 
@@ -181,7 +173,6 @@ if (!$withScholarships) {
         </div>
     <?php endwhile; ?>
 </div>
-
      ===================================== -->
 <div class="section">
     <h2>=== Students Without Scholarships ===</h2>
@@ -193,8 +184,6 @@ if (!$withScholarships) {
     <?php endwhile; ?>
 </div>
 
-
-
 <div class="section">
     <h2>=== Students With Scholarships ===</h2>
 
@@ -205,10 +194,8 @@ if (!$withScholarships) {
         </div>
     <?php endwhile; ?>
 </div>
-
 </body>
 </html>
-
 <?php
 $conn->close();
 ?>

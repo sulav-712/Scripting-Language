@@ -1,5 +1,6 @@
-<?php
+/* A simple calculator that takes two numbers and performs multiple arithmetic operations, demonstrating PHP operators and type juggling.
 
+<?php
 require_once 'value.php';
 
 $num1 = $A + 5;

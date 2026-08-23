@@ -1,5 +1,6 @@
-<?php
+/* A developer needs to compare the results of IN vs EXISTS and understand when to use each approach. */
 
+<?php
 require_once 'value.php';
 
 $conn = new mysqli("localhost", "root", "12345678", "lab_mysql");
@@ -7,7 +8,6 @@ $conn = new mysqli("localhost", "root", "12345678", "lab_mysql");
 if ($conn->connect_error) {
     die("Database connection failed: " . $conn->connect_error);
 }
-
 
 $title = "2J-Q2: Student" . $A . " vs Student" . $B;
 
@@ -83,7 +83,6 @@ while ($row = $queryB->fetch_assoc()) {
 
 $inCount = count($inResults);
 $existsCount = count($existsResults);
-
 $sameResults = true;
 
 if ($inCount !== $existsCount) {
@@ -195,13 +194,10 @@ if (!$scholarshipAmounts) {
     <?php endwhile; ?>
 </table>
 
-
 <h2>=== EXISTS vs IN Comparison ===</h2>
-
 <p>Threshold: Rs. <?= htmlspecialchars($threshold) ?></p>
 
 <h3>Query A (IN)</h3>
-
 <table>
     <tr>
         <th>ID</th>
@@ -221,7 +217,6 @@ if (!$scholarshipAmounts) {
 </table>
 
 <h3>Query B (EXISTS)</h3>
-
 <table>
     <tr>
         <th>ID</th>
@@ -248,9 +243,7 @@ if (!$scholarshipAmounts) {
     <?php endif; ?>
 </div>
 
-
 <h2>=== Scholarship Amounts ===</h2>
-
 <?php while ($student = $scholarshipAmounts->fetch_assoc()): ?>
     <div class="student">
         <?= htmlspecialchars($student['name']) ?>:
@@ -261,10 +254,8 @@ if (!$scholarshipAmounts) {
         <?php endif; ?>
     </div>
 <?php endwhile; ?>
-
 </body>
 </html>
-
 <?php
 $conn->close();
 ?>

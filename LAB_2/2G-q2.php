@@ -1,7 +1,7 @@
+/* A PHP diagnostic tool that tests database connectivity and displays connection status and server info. */
+
 <?php
-
 define('DB_NAME', 'lab_mysql');
-
 require_once 'value.php';
 
 function displayheader() {
@@ -16,10 +16,7 @@ function displayfooter() {
   echo "</pre>";
 }
 
-
-
 $conn = new mysqli("localhost", "root", "12345678", DB_NAME);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,8 +29,6 @@ $conn = new mysqli("localhost", "root", "12345678", DB_NAME);
 
 <div class="card">
    <h1><?php echo "Student" . $D . "'s Connection Test"; ?></h1>
-
-
   <?php
 
   if (!$conn) {
@@ -45,7 +40,6 @@ $conn = new mysqli("localhost", "root", "12345678", DB_NAME);
 
     $conn = mysqli_connect("localhost", "root", "12345678", "lab_mysql");
   }
-
 
   if (!$conn) {
     displayheader();
@@ -63,7 +57,6 @@ $conn = new mysqli("localhost", "root", "12345678", DB_NAME);
     echo "===============================\n";
     echo "</pre>";
 
-
     $sql = "SELECT 1 AS test";
     $result = mysqli_query($conn, $sql);
 
@@ -72,17 +65,11 @@ $conn = new mysqli("localhost", "root", "12345678", DB_NAME);
       echo "<p>Query Result: " . $row['test'] . "</p>";
       mysqli_free_result($result);
     } 
-
     echo "</pre>";
 
     mysqli_close($conn);
     }
-    
-
   ?>
 </div>
-  
- 
-
 </body>
 </html>
