@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form Validator</title>
+</head>
+<body>
+  <h1>Registration Form</h1>
+  <form id="regForm">
+    <label>Name: <input type="text" id="name" required></label><br><br>
+    <label>Email: <input type="email" id="email" required></label><br><br>
+    <label>Password: <input type="password" id="pass" required></label><br><br>
+    <label>Confirm Password: <input type="password" id="confirm" required></label><br><br>
+    <button type="submit">Register</button>
+  </form>
+
+  <p id="msg"></p>
+
+  <script>
+    const A = 2;
+    const B = 8;
+    const C = 1;
+    const D = 2;
+
+    const form = document.getElementById('regForm');
+    const msg = document.getElementById('msg');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      validateForm();
+    });
+
+    function validateForm() {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const pass = document.getElementById('pass').value;
+      const confirm = document.getElementById('confirm').value;
+
+      msg.textContent = '';
+
+      if (name.length < B) {
+        msg.textContent = "Name must be at least " + B + " characters.";
+        return false;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        msg.textContent = "Email is invalid.";
+        return false;
+      }
+
+      const minPassLen = 8 + D;
+      if (pass.length < minPassLen) {
+        msg.textContent = "Password must be at least " + minPassLen + " characters.";
+        return false;
+      }
+
+      const digitRegex = /[0-9]/g;
+      const digits = pass.match(digitRegex);
+      const requiredDigits = C + 1;
+      if (!digits || digits.length < requiredDigits) {
+        msg.textContent = "Password must contain at least " + requiredDigits + " numbers." + (requiredDigits > 1 ? "s" : "");
+        return false;
+      }
+
+      if (pass !== confirm) {
+        msg.textContent = "Passwords do not match.";
+        return false;
+      }
+      
+      msg.textContent = "Registration successful for Student" + A;
+      return true;
+    }
+  </script>
+</body>
+</html>
