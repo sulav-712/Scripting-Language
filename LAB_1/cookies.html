@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remember My Name</title>
+</head>
+<body>
+  <h1>Remember My Name</h1>
+  <p>Open broswer console to see cookie operations.</p>
+
+  <script>
+    const A = 2;
+    const B = 8;
+    const C = 1;
+    const D = 2;
+
+    let d = new Date();
+    d.setTime(d.getTime() + (B * 24 * 60 * 60 * 1000));
+    document.cookie = "student=Student" + A + ";expires=" + d.toUTCString() + ";path=/";
+
+    console.log("After setting student cookie: ", document.cookie);
+
+    document.cookie = "visits=" + (C + D) + ";path=/";
+
+    console.log("After setting visits cookie: ", document.cookie);
+
+    document.cookie = "student=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+
+    console.log("After deleting student cookie: ", document.cookie);
+  </script>
+</body>
+</html>
