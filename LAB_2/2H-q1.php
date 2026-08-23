@@ -2,7 +2,6 @@
 
 <?php
 require_once 'value.php';
-
 $conn = new mysqli("localhost", "root", "12345678", "lab_mysql");
 
 if ($conn->connect_error) {
@@ -25,7 +24,6 @@ if ($conn->query($sql)) {
 $name2 = "Student" . $B;
 $age2 = 20 + $C;
 $major2 = "Information Technology";
-
 $sql = "INSERT INTO students (name, age, major) VALUES ('$name2', $age2, '$major2')";
 
 if ($conn->query($sql)) {

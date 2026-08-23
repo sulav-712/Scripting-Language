@@ -11,7 +11,6 @@ if ($conn->connect_error) {
 
 $minPlaceholder = $A + 10;
 $maxPlaceholder = $B + 25;
-
 $min_age = "";
 $max_age = "";
 $major = "All";
@@ -98,9 +97,7 @@ if (!$result) {
             <?php if ($major == "Data Science") echo "selected"; ?>>
             Data Science
         </option>
-    </select>
-
-    <br><br>
+    </select> <br><br>
 
     <button type="submit">
         <?php echo "Search Students " . $C; ?>
@@ -109,16 +106,12 @@ if (!$result) {
 <hr>
 
 <?php
-
 echo "<h3>Found " . $result->num_rows . " result(s)</h3>";
 
 if ($result->num_rows == 0) {
-
     echo "<p>No students match your criteria.</p>";
-
 } else {
     echo '<table border="1" cellpadding="6" cellspacing="0">';
-
     echo "<tr>";
     echo "<th>ID</th>";
     echo "<th>Name</th>";
@@ -127,17 +120,11 @@ if ($result->num_rows == 0) {
     echo "</tr>";
 
     while ($row = $result->fetch_assoc()) {
-
         echo "<tr>";
-
         echo "<td>" . htmlspecialchars($row['id']) . "</td>";
-
         echo "<td>" . htmlspecialchars($row['name']) . "</td>";
-
         echo "<td>" . htmlspecialchars($row['age']) . "</td>";
-
         echo "<td>" . htmlspecialchars($row['major']) . "</td>";
-
         echo "</tr>";
     }
     echo "</table>";

@@ -6,22 +6,18 @@ require_once 'value.php';
 $durationMinutes = $A + $B;
 $themeCookieName = "theme_pref";
 $expiryCookieName = "theme_expiry" . $A;
-
 $message = "";
 $currentTheme = "light";
 $expiryTimestamp = 0;
 
 if (isset($_POST['theme'])) {
   $selectedTheme = trim($_POST['theme']);
-
   $allowedThemes = ['light', 'dark', 'blue'];
 
   if (in_array($selectedTheme, $allowedThemes, true)) {
     $expiryTimestamp = time() + (60 * $durationMinutes);
-
     setcookie($themeCookieName, $selectedTheme, $expiryTimestamp, "/");
     setcookie($expiryCookieName, $expiryTimestamp, $expiryTimestamp, "/");
-
     $currentTheme = $selectedTheme;
     $message = "Theme set to " . htmlspecialchars($selectedTheme) . " for " . $durationMinutes . " minutes.";
   }
@@ -40,7 +36,6 @@ if ($expiryTimestamp === 0 && isset($_COOKIE[$expiryCookieName])) {
 }
 
 $remainingSeconds = max(0, $expiryTimestamp - time());
-
 $backgroundColor = "#fff";
 $textColor = "#000";
 
@@ -103,7 +98,6 @@ if ($currentTheme === "dark") {
 
         <button type="submit">Set Theme <?= $D ?></button>
     </form>
-
     <pre>==============================
      Theme: <?= htmlspecialchars($currentTheme) . "\n"?>
 ==============================

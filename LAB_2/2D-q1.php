@@ -5,7 +5,6 @@ require_once '2D-q1-config.php';
 date_default_timezone_set(TIMEZONE);
 logMessage("Dashboard loaded.");
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +19,6 @@ logMessage("Dashboard loaded.");
   <p>Day: <?php echo date('l'); ?></p>
   <p>Custom: <?php echo date("l, js F Y - h:i A"); ?></p>
   <p>Days remaining in <?php echo date('Y'); ?>: <?php echo 365 - (int) date('z'); ?></p>
-
   <?php
   include_once '2D-q1-footer.php';
   ?>

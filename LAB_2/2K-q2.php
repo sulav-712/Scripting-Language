@@ -2,22 +2,18 @@
 
 <?php
 require_once 'value.php';
-
 $conn = new mysqli("localhost", "root", "12345678", "lab_mysql");
 
 if ($conn->connect_error) {
     die("Database connection failed: " . $conn->connect_error);
 }
-
 $title = "2K-Q2: Student" . $A . $B . $C . $D;
 $fallbackScholarship = $D * 1000;
-
 $joinType = isset($_GET['join_type']) ? $_GET['join_type'] : "All";
 
 if (!in_array($joinType, ["All", "INNER only", "LEFT only"])) {
     $joinType = "All";
 }
-
 $sql = "INSERT IGNORE INTO grades (student_id, course, grade) VALUES
     (3, 'Python', 'A'),
     (4, 'Java', 'B')";
@@ -25,7 +21,6 @@ $sql = "INSERT IGNORE INTO grades (student_id, course, grade) VALUES
 if (!$conn->query($sql)) {
     die("Error inserting grades: " . $conn->error);
 }
-
 $sql = "INSERT IGNORE INTO scholarships (student_id, amount) VALUES
     (1, 10000),
     (2, 8000),
@@ -34,7 +29,6 @@ $sql = "INSERT IGNORE INTO scholarships (student_id, amount) VALUES
 if (!$conn->query($sql)) {
     die("Error inserting scholarships: " . $conn->error);
 }
-
 $part1Result = null;
 
 if ($joinType === "INNER only") {
@@ -60,7 +54,6 @@ if ($joinType === "All" || $joinType === "INNER only" || $joinType === "LEFT onl
         die("Error in three-table join: " . $conn->error);
     }
 }
-
 $part2Result = null;
 
 if ($joinType === "All") {
@@ -77,7 +70,6 @@ if ($joinType === "All") {
         die("Error in multiple courses query: " . $conn->error);
     }
 }
-
 $part3Result = null;
 
 if ($joinType === "All") {
@@ -102,7 +94,6 @@ if ($joinType === "All") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($title) ?></title>
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -174,7 +165,6 @@ if ($joinType === "All") {
         <?= "Generate " . $A . " Report" ?>
     </button>
 </form>
-
 <div class="section">
     <?php if ($joinType === "INNER only"): ?>
         <table border="1">

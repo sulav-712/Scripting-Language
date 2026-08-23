@@ -116,7 +116,6 @@ if ($D % 2 == 0) {
 ================================
      Grade Summary Report
 ================================
-
 Per-Subject Stats:
 <?php
 while ($row = $subjectResult->fetch_assoc()) {
@@ -128,20 +127,13 @@ while ($row = $subjectResult->fetch_assoc()) {
 
 Overall:
 Total Records: <?php echo $overallRow['total']; ?>
-
 Overall Average: <?php echo number_format($overallRow['overall_avg'], 2); ?>
-
 Top Scorer: <?php echo $topName; ?> — <?php echo number_format($topMarks, 2); ?> (<?php echo $topSubject; ?>)
-
 Grade Distribution:
 A (>=90): <?php echo $gradeRow['grade_a']; ?>
-
 B (>=75): <?php echo $gradeRow['grade_b']; ?>
-
 C (>=60): <?php echo $gradeRow['grade_c']; ?>
-
 D (>=40): <?php echo $gradeRow['grade_d']; ?>
-
 F (<40): <?php echo $gradeRow['grade_f']; ?>
 ================================
 </pre>

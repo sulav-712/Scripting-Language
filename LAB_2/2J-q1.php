@@ -2,18 +2,15 @@
 
 <?php
 require_once "value.php";
-
 $conn = new mysqli("localhost", "root", "12345678", "lab_mysql");
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
 $title = "2J-Q1 by " . $A . "." . $B;
-
 $result = $conn->query("SELECT COUNT(*) AS total FROM students");
 
-IF (!$result) {
+if (!$result) {
   die("Error checking students table: " . $conn->error);
 }
 
