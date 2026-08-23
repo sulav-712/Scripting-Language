@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text & Number Utilities</title>
+</head>
+<body>
+  <h1>Text & Number Utilities</h1>
+  <pre id="output"></pre>
+
+  <script>
+    const A = 2;
+    const B = 8;
+    const C = 1;
+    const D = 2;
+
+    const output = document.getElementById('output');
+    function log(msg) {
+      output.textContent += msg + '\n';
+    }
+
+    let text = "bca scripting language";
+    log(text.toUpperCase());
+    log(text.length);
+    log(text.indexOf("script"));
+    log(text.slice(B, B + 5));
+
+    const sqrtVal = Math.round(Math.sqrt(A * A + B * B));
+    log("sqrt rounded: " + sqrtVal);
+
+    const roundVal = Math.round(4.6 + C);
+    log("round(4.6): " + roundVal);
+
+    log("random: " + Math.random());
+
+    log("isInteger(" + A + "): ") + Number.isInteger(A);
+    
+    const division = (A / (B + 1)).toFixed(2);
+    log(A + " / " + (B + 1) + " = " + division);
+
+    let d = new Date();
+    log("Today: " + d.toDateString());
+    log("Year: " + d.getFullYear());
+  </script>
+</body>
+</html>
