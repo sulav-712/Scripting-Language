@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping List Manager</title>
+</head>
+<body>
+  <h1>Shopping List Manager</h1>
+  <pre id="output"></pre>
+
+  <script>
+    const A = 2;
+    const B = 8;
+    const C = 1;
+    const D = 2;
+
+    const output = document.getElementById('output');
+    function log(msg){
+      output.textContent += msg + '\n';
+    }
+
+    let items = ['Rice', 'Oil', 'Sugar'];
+
+    items.push('Salt', 'Tea');
+
+    items.pop();
+    log("After pop: " + items.join(','));
+
+    const spliceIndex = B % items.length;
+    items.splice(spliceIndex, 1);
+    log("After splice: " + items.join(','));
+
+    items.forEach((name, i) => {
+      log("Item " + i + ": " + name);
+    });
+
+    function totalPrice(price, qty) {
+      return price * qty;
+    }
+
+    const discount = (price) => price - (price * (D/100));
+
+    const bill = totalPrice(50 + C, A);
+    const final = discount(bill);
+
+    log("Bill: " + bill);
+    log("Final after " + D + "% discount: " + final);    
+  </script>
+</body>
+</html>

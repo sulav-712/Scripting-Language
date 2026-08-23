@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome & Countdown</title>
+</head>
+<body>
+  <h1>Welcome & Countdown</h1>
+  <p>Open the browser console to see countdown and browser information.</p>
+
+  <script>
+    const A = 2;
+    const B = 8;
+    const C = 1;
+    const D = 2;
+
+    const name = prompt("What is your name?");
+    alert("Welcome " + name + " Student " + A);
+
+    const wantCountdown = confirm("Do you want to start a " + B + "-second countdown?");
+
+    if (wantCountdown) {
+      let count = B;
+      let timer = setInterval(() => {
+        console.log("Countdown: " + count);
+        count--;
+        if (count < 0) {
+          console.log("Done! (C=" + C + ", D=" + D + ")");
+          clearInterval(timer);
+        }
+      }, 1000);
+    } else {
+      alert("Countdown canceled.");
+    }
+
+    console.log("Page URL: " + window.location.href);
+    console.log("User Agent: " + window.navigator.userAgent);
+    console.log("Screen size: " + window.screen.width + "x" + window.screen.height);
+  </script>
+</body>
+</html>
