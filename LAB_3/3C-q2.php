@@ -39,7 +39,6 @@ class VIPProduct extends Product {
     parent::__construct($name, $code, $basePrice * (1 + $vipMarkup / 100));
   }
 
-
   function setPrice($price): void {
     if ($price >= 1000 && $price <= 500000) {
       $this->price = $price;

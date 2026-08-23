@@ -1,4 +1,5 @@
 <?php
+require_once 'value.php';
 header('Content-Type: application/json');
 
 $numRaw = $_GET['num'] ?? 0;
