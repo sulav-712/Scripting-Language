@@ -4,18 +4,14 @@
 require_once 'value.php';
 
 class InvalidScoreException extends Exception {}
-
 class MissingFieldException extends Exception {}
-
 class DuplicateEntryException extends Exception {}
 
 class ResultManager {
   private array $records = [];
-
   public function __construct() {
     $this->records = [];
   }
-
   public function addResult(?string $rollNo, ?string $name, ?float $score): string {
     if ($rollNo === null || $rollNo === '') {
       throw new MissingFieldException("Roll number is required.");

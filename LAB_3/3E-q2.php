@@ -8,7 +8,6 @@ class Product {
   public string $sku;
   private float $price;
   private int $quantity;
-
   private static int $productCount = 0;
   private static float $totalValue = 0.0;
   const WAREHOUSE_CAPACITY = 1000;
@@ -21,7 +20,6 @@ class Product {
 
     self::$productCount++;
     self::$totalValue += $initialPrice * $initialQuantity;
-
   }
 
   public static function getProductCount(): int {

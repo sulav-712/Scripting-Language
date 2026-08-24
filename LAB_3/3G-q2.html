@@ -8,7 +8,6 @@
 </head>
 <body>
     <h1>Age Calculator</h1>
-
     <label for="nameInput">Your Name:</label>
     <input type="text" id="nameInput" placeholder="Enter name (min 5 chars)" />
 
@@ -16,7 +15,6 @@
     <input type="text" id="yearInput" />
 
     <button id="calcBtn">Age calc for 2012</button>
-
     <div id="result"></div>
     <div id="error" style="color: red;"></div>
 
@@ -30,7 +28,6 @@
         calcBtn.addEventListener('click', async () => {
             resultDiv.textContent = '';
             errorDiv.textContent = '';
-
             const nameValue = nameInput.value;
             const yearValue = yearInput.value;
 
@@ -75,7 +72,6 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 $rawInput = file_get_contents("php://input");
 $data = json_decode($rawInput, true);
-
 $name = $data["name"] ?? "";
 $birthYear = $data["birthYear"] ?? "";
 

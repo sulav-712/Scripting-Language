@@ -7,20 +7,16 @@ abstract class Vehicle {
   protected string $brand;
   protected string $model;
   protected int $year;
-
   public function __construct(string $brand, string $model, int $year) {
     $this->brand = $brand;
     $this->model = $model;
     $this->year = $year;
   }
-
   abstract public function fuelEfficiency() : float;
   abstract public function maxSpeed() : int;
-
   public function getInfo() : string {
     return "{$this->year} {$this->brand} {$this->model}";
   }
-
   public function compare(Vehicle $other) : string{
     if ($this->fuelEfficiency() > $other->fuelEfficiency()) {
       return "{$this->getInfo()} is more fuel-efficient than {$other->getInfo()}.";
@@ -33,7 +29,6 @@ abstract class Vehicle {
 
 class Car extends Vehicle {
   private int $doors;
-
   public function __construct(string $brand, string $model, int $year, int $doors) {
     parent::__construct($brand, $model, $year);
     $this->doors = $doors;
@@ -42,7 +37,6 @@ class Car extends Vehicle {
   public function fuelEfficiency() : float {
     global $A;
     return 15.0 + ($A * 0.5);
-
   }
 
   public function maxSpeed() : int {
@@ -53,7 +47,6 @@ class Car extends Vehicle {
 
 class Bike extends Vehicle {
   private bool $hasSidecar;
-
   public function __construct(string $brand, string $model, int $year, bool $hasSidecar) {
     parent::__construct($brand, $model, $year);
     $this->hasSidecar = $hasSidecar;
@@ -72,7 +65,6 @@ class Bike extends Vehicle {
 
 class Truck extends Vehicle {
   private float $loadCapacity; // in tons
-
   public function __construct(string $brand, string $model, int $year, float $loadCapacity) {
     parent::__construct($brand, $model, $year);
     $this->loadCapacity = $loadCapacity;
@@ -92,7 +84,6 @@ class Truck extends Vehicle {
 $car = new Car("Toyota", "Camry", 2020, 4);
 $bike = new Bike("Yamaha", "YZF-R3", 2021, false);
 $truck = new Truck("Ford", "F-150", 2019, 1.5);
-
 $vehiclesArray = [$car, $bike, $truck];
 
 foreach ($vehiclesArray as $vehicle) {
@@ -103,4 +94,3 @@ foreach ($vehiclesArray as $vehicle) {
 echo $car->compare($bike) . "\n";
 echo $truck->compare($car) . "\n";
 ?>
-

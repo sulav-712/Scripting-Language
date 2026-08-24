@@ -7,14 +7,12 @@ class Book {
   private string $author;
   private string $genre;
   private string $accessionNo;
-
   public function setDetails(string $title, string $author, string $genre, string $accessionNo) : void {
     $this->title = $title;
     $this->author = $author;
     $this->genre = $genre;
     $this->accessionNo = $accessionNo;
   }
-
   public function getDetails() : string {
     return $this->accessionNo . ": " . $this->title . " by " . $this->author . " [" . $this->genre . "]" . "\n";
   }

@@ -7,20 +7,16 @@ interface PaymentMethod {
     public function getPaymentType(): string;
     public function validatePayment(): bool;
 }
-
 abstract class OnlinePayment implements PaymentMethod {
     protected string $transactionId;
     protected float $amount;
     protected string $currency;
-
     public function __construct(float $amount, string $currency) {
         $this->amount = $amount;
         $this->currency = $currency;
         $this->transactionId = "TXN-" . strtoupper(substr(md5(rand()), 0, 6));
     }
-
     abstract public function processPayment(float $amount): string;
-
     public function getPaymentType(): string {
         $ref = new ReflectionClass($this);
         return $ref->getShortName();
@@ -29,12 +25,10 @@ abstract class OnlinePayment implements PaymentMethod {
 
 class CreditCard extends OnlinePayment {
     private string $cardNumber;
-
     public function __construct(float $amount, string $currency, string $cardNumber) {
         parent::__construct($amount, $currency);
         $this->cardNumber = "XXXX-XXXX-XXXX-" . substr($cardNumber, -4);
     }
-
     public function validatePayment(): bool {
         $originalLength = 16; // full original card number length as required
         return $originalLength === 16 && $this->amount >= 100;
@@ -49,16 +43,13 @@ class CreditCard extends OnlinePayment {
 
 class DigitalWallet extends OnlinePayment {
     private string $walletProvider;
-
     public function __construct(float $amount, string $currency, string $walletProvider) {
         parent::__construct($amount, $currency);
         $this->walletProvider = $walletProvider;
     }
-
     public function validatePayment(): bool {
         return $this->amount >= 10 && $this->amount <= 50000;
     }
-
     public function processPayment(float $amount): string {
         $d = 2; // assumed wallet fee/discount percentage
         $this->amount = $amount * (1 - ($d / 100));
@@ -69,7 +60,6 @@ class DigitalWallet extends OnlinePayment {
 class CashOnDelivery implements PaymentMethod {
     private string $address;
     private float $amount;
-
     public function __construct(string $address, float $amount) {
         $this->address = $address;
         $this->amount = $amount;
@@ -87,7 +77,6 @@ class CashOnDelivery implements PaymentMethod {
         return strlen($this->address) > 10;
     }
 }
-
 $regNumber = str_pad("123456789", 16, "0", STR_PAD_LEFT);
 $walletProvider = ($A % 2 === 0) ? "eSewa" : "Khalti";
 

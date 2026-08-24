@@ -1,12 +1,10 @@
-/* A banking system processes withdrawals and deposits. Invalid operations (overdraft, negative deposits, invalid account status) must be handled with custom exception types rather than letting the script crash. 
+/* A banking system processes withdrawals and deposits. Invalid operations (overdraft, negative deposits, invalid account status) must be handled with custom exception types rather than letting the script crash. */
 
 <?php
 require_once 'value.php';
 
 class OverdraftException extends Exception {}
-
 class InvalidAmountException extends Exception {}
-
 class AccountFrozenException extends Exception {}
 
 class BankAccount {
@@ -14,23 +12,19 @@ class BankAccount {
   public string $holderName;
   private float $balance;
   private bool $isFrozen;
-
   public function __construct(string $accountNo, string $holderName, float $balance) {
     $this->accountNo = $accountNo;
     $this->holderName = $holderName;
     $this->balance = $balance;
     $this->isFrozen = false;
   }
-
   public function deposit(float $amount): void {
     if ($amount <= 0) {
       throw new InvalidAmountException("Deposit amount must be positive. Given: {$amount}");
     }
-
     if ($this->isFrozen) {
       throw new AccountFrozenException("Account {$this->accountNo} is frozen. Cannot deposit.");
     }
-
     $this->balance += $amount;
     echo "Deposited Rs. {$amount}. New balance: Rs. {$this->balance}\n";
   }
@@ -60,7 +54,6 @@ class BankAccount {
     return $this->balance;
   }
 }
-
 $accountNo = "ACC-" . (100 + $A) . ($B + $C % 10);
 $holderName = "Ramesh";
 $initialBalance = 10000 + ($A * 1000);
@@ -93,7 +86,6 @@ try {
 } catch (OverdraftException $e) {
     echo "Error: [OverdraftException] " . $e->getMessage() . "\n";
 }
-
 finally {
   echo "Script completed successfully\n";
 }

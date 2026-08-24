@@ -13,9 +13,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3I-Q2 — <?= $titleSum1 ?>_<?= $titleSum2 ?></title>
-  
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
-  
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -123,7 +121,6 @@
   </style>
 </head>
 <body>
-
   <h1>Task Manager — Sulav</h1>
 
   <div class="input-group">
