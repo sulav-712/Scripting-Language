@@ -1,5 +1,6 @@
-<?php
+/* A computer store tracks laptops in stock. Each laptop has a brand, model, price, and stock quantity. */
 
+<?php
 require_once 'value.php';
 
 class Laptop {
@@ -57,5 +58,4 @@ echo "Sold 999 units of " . $Laptop3->brand . "?: " . ($question3 ? 1 : 0) . PHP
 echo $Laptop1->getInfo() . PHP_EOL;
 echo $Laptop2->getInfo() . PHP_EOL;
 echo $Laptop3->getInfo() . PHP_EOL;
-
 ?>

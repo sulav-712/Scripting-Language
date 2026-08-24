@@ -1,5 +1,6 @@
-<?php
+/* A bank wants to track account creations and closures. Whenever an account is opened, the constructor should log it. When the account object is destroyed (e.g., account closed), the destructor should log that too. */
 
+<?php
 require_once 'value.php';
 
 class BankAccount {
@@ -20,7 +21,6 @@ class BankAccount {
     echo "Deposited Rs. {$amount}. New balance: Rs. {$this->balance}.\n";
   }
 
-
   public function withdraw(float $amount) : bool {
     if ($amount <= $this->balance) {
       $this->balance -= $amount;
@@ -31,7 +31,6 @@ class BankAccount {
       return false;
     }
   }
-
 
   public function __destruct() {
     echo "Account {$this->accountNumber} closed. Final balance: Rs. {$this->balance}. Goodbye, {$this->holderName}!\n";
@@ -46,13 +45,9 @@ if (strlen($holderName) != $B) {
   exit;
 }
 $account1 = new BankAccount($accountNumber1, $holderName, $initialDeposit);
-
-
 $account1->deposit($C * 100);
 $account1->withdraw(5000 + ($A + $B) * 100);
-
 unset($account1);
-
 // Balance Check:
 // 13000 + 1500 - 6300 = 8200
 ?>

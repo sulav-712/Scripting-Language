@@ -1,5 +1,6 @@
-<?php
+/* A company wants to ensure that employee salaries cannot be set to unreasonable values. Only authorized range-based updates should be allowed through controlled setter methods. Junior and Senior employees have different salary rules. */
 
+<?php
 require_once 'value.php';
 
 class Employee {
@@ -13,7 +14,6 @@ class Employee {
     $this->setSalary($initialSalary);
   }
 
-
   public function setSalary (float $amount) : void {
     if ($amount >= 10000 && $amount <= 200000) {
       $this->salary = $amount;
@@ -22,28 +22,22 @@ class Employee {
     }
  }
 
-
-
   public function getSalary() : float {
     return $this->salary;
   }
-
 
   public function displayInfo() : string {
     return "{$this->id}: {$this->name} Rs. {$this->salary}";
   }
 }
 
-
 class SeniorDeveloper extends Employee {
   private float $bonusPercent;
-
 
   public function __construct(string $name, string $id, float $salary, float $bonusPercent) {
     parent::__construct($name, $id, $salary);
     $this->bonusPercent = $bonusPercent;
   }
-
 
   function setSalary($amount) : void {
     if ($amount >= 20000 && $amount <= 50000) {
@@ -54,17 +48,14 @@ class SeniorDeveloper extends Employee {
     }
   }
 
-
   function getAnnualPackage() : float {
     return ($this->getSalary() * 12) * (1 + $this->bonusPercent / 100);
   }
-
 
   function displayInfo() : string {
     return "SENIOR: " . $this->id . ": " . $this->name . " Rs. " . $this->getSalary() . "/month | Bonus: " . $this->bonusPercent . "% | Annual: Rs. " . $this->getAnnualPackage();
   }
 }
-
 
 $emp = new Employee("Aarav", "EMP-" . (100 + $A) . ($B + 1), 20000 + ($C * 1000));
 $emp->setSalary(5000);

@@ -1,5 +1,6 @@
-<?php
+/* An e-commerce platform accepts multiple payment methods (Credit Card, eSewa/Khalti, Cash on Delivery). Each payment method processes differently, but all must follow a common contract. */
 
+<?php
 require_once 'value.php';
 interface PaymentMethod {
     public function processPayment(float $amount): string;

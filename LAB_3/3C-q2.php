@@ -1,5 +1,6 @@
-<?php
+/* An online store needs a product management system where product prices have strict rules. Base products have one pricing rule, and discounted/vip products have another. A product's $code is sensitive and should only be readable, not writable from outside. */
 
+<?php
 require_once 'value.php';
 
 class Product {
@@ -63,7 +64,6 @@ echo $p3->displayInfo() . "\n";
 $p1->setPrice(50);
 $p2->setPrice(999 + 15 * 10);
 echo $p2->displayInfo() . "\n";
-
 $vip = new VIPProduct("BluetoothSpeaker", "VIP-" . (8 + 5) . 2, 5000, 8 + 2);
 $vip->setPrice(500);
 echo $vip->displayInfo() . "\n";

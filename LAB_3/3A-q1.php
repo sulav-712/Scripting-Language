@@ -1,6 +1,7 @@
+/* A small library wants to digitize its book records. Each book has a title, author, genre, and a unique accession number. */
+
 <?php
 require_once 'value.php';
-
 class Book {
   private string $title;
   private string $author;
@@ -22,7 +23,6 @@ class Book {
     return $this->genre === $genre;
   }
 }
-
 $book1 = new Book();
 $accessionNo1 = "ACC-00" . $A;
 $book1->setDetails("Harry Potter", "J.K. Rowling", "Fiction", $accessionNo1);
@@ -43,8 +43,6 @@ $book3->setDetails($title3, "Alice Johnson", "Academic", "A005");
 echo $book1->getDetails() . "\n";
 echo $book2->getDetails() . "\n";
 echo $book3->getDetails() . "\n";
-
 echo "Book 1 matches Fiction: " . ($book1->matchesGenre("Fiction") ? 1 : 0) . "\n";
 echo "Book 3 matches Academic: " . ($book3->matchesGenre("Academic") ? 1 : 0) . "\n";
-
 ?>

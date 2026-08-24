@@ -1,5 +1,6 @@
-<?php
+/* A transport company has different types of vehicles (Car, Bike, Truck). Each vehicle can calculate its fuel cost differently. The company wants a common system where all vehicles are treated uniformly but each calculates costs in its own way. */
 
+<?php
 require_once 'value.php';
 
 abstract class Vehicle {
@@ -92,7 +93,6 @@ $car = new Car("Toyota", "Camry", 2020, 4);
 $bike = new Bike("Yamaha", "YZF-R3", 2021, false);
 $truck = new Truck("Ford", "F-150", 2019, 1.5);
 
-
 $vehiclesArray = [$car, $bike, $truck];
 
 foreach ($vehiclesArray as $vehicle) {
@@ -100,7 +100,6 @@ foreach ($vehiclesArray as $vehicle) {
   echo "Fuel Efficiency: " . $vehicle->fuelEfficiency() . " km/l" . PHP_EOL;
   echo "Max Speed: " . $vehicle->maxSpeed() . " km/h" . PHP_EOL . PHP_EOL;
 }
-
 echo $car->compare($bike) . "\n";
 echo $truck->compare($car) . "\n";
 ?>
