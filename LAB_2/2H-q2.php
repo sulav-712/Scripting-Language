@@ -97,7 +97,7 @@ if (!$result) {
             <?php if ($major == "Data Science") echo "selected"; ?>>
             Data Science
         </option>
-    </select> <br><br>
+    </select><br><br>
 
     <button type="submit">
         <?php echo "Search Students " . $C; ?>

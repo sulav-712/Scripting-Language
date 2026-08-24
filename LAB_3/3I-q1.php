@@ -1,13 +1,11 @@
 <?php
-
-  require_once 'value.php';
+require_once 'value.php';
 
   $studentId = $A . $B . $C;
   $captionText = "Student" . $D . "'s Gallery";
   $placeholderMin = $D + 2;
   $altText = "Photo-" . $A . "-" . $B;
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -180,6 +178,5 @@
       });
     });
   </script>
-
 </body>
 </html>

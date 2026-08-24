@@ -10,5 +10,4 @@ function logMessage($message) {
   $logEntry = "[$timestamp] - $message\n";
   file_put_contents(LOG_FILE, $logEntry, FILE_APPEND | LOCK_EX);
 }
-
 ?>

@@ -75,7 +75,6 @@ if ($stmt->execute()) {
         "message" => "Database error: " . $stmt->error
     ]);
 }
-
 $stmt->close();
 $conn->close();
 ?>

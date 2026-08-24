@@ -4,7 +4,6 @@
 require_once 'value.php';
 
 $pageTitle = "Profile Viewer - " . ($A + $B) . "_" . $C;
-
 $hidddenId = "STU-" . $A . $B . $C;
 $name = isset($_GET['name']) ? htmlspecialchars($_GET['name']) : "Guest";
 $age = isset($_GET['age']) ? htmlspecialchars($_GET['age']) : "Unknown";

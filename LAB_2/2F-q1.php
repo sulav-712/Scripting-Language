@@ -2,7 +2,6 @@
 
 <?php
 require_once 'value.php';
-
 session_start();
 
 if (isset($_GET['reset']) && $_GET['reset'] == '1') {

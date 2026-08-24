@@ -43,7 +43,6 @@ $sql = "INSERT IGNORE INTO popular_majors (major_name) VALUES
 if (!$conn->query($sql)) {
     die("Error inserting popular majors: " . $conn->error);
 }
-
 $sql = "SELECT name, age, major
         FROM students
         WHERE age > (SELECT AVG(age) FROM students)";
