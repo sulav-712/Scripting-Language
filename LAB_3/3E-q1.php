@@ -1,5 +1,6 @@
-<?php
+/* A university wants to track how many students have registered for courses across different sections. Each registration increments a shared counter. The system should also track registrations per course section using a static method. */
 
+<?php
 require_once 'value.php';
 
 class Registration {

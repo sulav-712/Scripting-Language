@@ -1,3 +1,5 @@
+/* A simple task management dashboard needs jQuery UI widgets for date-based task scheduling and dialog-based task details. The page must also support adding/removing tasks with visual effects. */
+
 <?php include 'value.php'; ?>
 <?php
   $titleSum1 = $A + $B;
@@ -242,6 +244,5 @@
       updateTotal();
     });
   </script>
-
 </body>
 </html>

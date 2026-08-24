@@ -16,7 +16,6 @@ if ($conn->connect_error) {
     ]);
     exit;
 }
-
 $data = json_decode(file_get_contents("php://input"), true);
 
 $name = trim($data["name"] ?? "");
@@ -60,7 +59,6 @@ if (!$stmt) {
 }
 
 $score = (float) $score;
-
 $stmt->bind_param("sssd", $name, $dept, $semester, $score);
 
 if ($stmt->execute()) {

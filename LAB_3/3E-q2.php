@@ -1,5 +1,6 @@
-<?php
+/* A warehouse tracks all products in stock. Each product created adds to a shared inventory count. A static utility method checks whether the warehouse is at capacity. */
 
+<?php
 require_once 'value.php';
 
 class Product {
@@ -42,7 +43,6 @@ class Product {
     return "{$this->sku}: {$this->name} Rs. {$this->price} (QTY: {$this->quantity})";
   }
 }
-
 $nameLength = ($A % 3) + 5;
 
 $product1Name = "Monitor";

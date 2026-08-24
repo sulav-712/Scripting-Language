@@ -1,3 +1,5 @@
+/* A photography portfolio page needs interactive image controls. Visitors should be able to show, hide, fade, and slide-toggle the gallery images with smooth animations. The page also needs dynamic caption management. */
+
 <?php
 require_once 'value.php';
 

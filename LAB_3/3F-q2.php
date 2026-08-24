@@ -1,5 +1,6 @@
-<?php 
+/* A result management system needs to validate student scores before recording them. Multiple validation rules exist, and each type of violation should produce a specific exception type. */
 
+<?php 
 require_once 'value.php';
 
 class InvalidScoreException extends Exception {}
@@ -45,7 +46,6 @@ class ResultManager {
   }
 }
 
-
 $roll1 = "BCA-" . (100 + $A);
 $name1 = "Student" . $A;
 $score1 = 50 + ($C % 51);
@@ -61,7 +61,6 @@ $score3 = 150 + $D;
 $roll4 = $roll1;
 $name4 = "Duplicate";
 $score4 = 90.0;
-
 
 $testCases = [
   [$roll1, $name1, $score1],
@@ -86,6 +85,5 @@ foreach ($testCases as $case) {
     echo "---End of attempt for {$label}---\n";
   }
 }
-
 echo "All processing complete";
 ?>

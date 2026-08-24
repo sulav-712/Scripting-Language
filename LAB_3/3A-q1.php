@@ -39,7 +39,6 @@ if ($wordCount != ($C % 3) + 2) {
   $title3 = "PHP Basics";
 }
 $book3->setDetails($title3, "Alice Johnson", "Academic", "A005");
-
 echo $book1->getDetails() . "\n";
 echo $book2->getDetails() . "\n";
 echo $book3->getDetails() . "\n";

@@ -1,5 +1,6 @@
-<?php
+/* A banking system processes withdrawals and deposits. Invalid operations (overdraft, negative deposits, invalid account status) must be handled with custom exception types rather than letting the script crash. 
 
+<?php
 require_once 'value.php';
 
 class OverdraftException extends Exception {}
@@ -70,7 +71,6 @@ try {
 } catch (InvalidAmountException $e) {
     echo "Error: [InvalidAmountException] " . $e->getMessage() . "\n";
 }
-
 $account1->freezeAmount();
 
 try {
@@ -79,13 +79,11 @@ try {
     echo "Error: [AccountFrozenException] " . $e->getMessage() . "\n";
 }
 
-
 try {
   $account1->withdraw(999999);
 } catch (AccountFrozenException $e) {
     echo "Error: [AccountFrozenException] " . $e->getMessage() . "\n";
 }
-
 
 $account2 = new BankAccount("ACC-999999", "Sita", 10000);
 $withdrawAmount = 50000 + $C * 100;
