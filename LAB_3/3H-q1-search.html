@@ -1,196 +1,91 @@
-/* A college wants a live search feature where typing a student's name instantly shows matching records from the database — without pressing any search button or reloading the page.
+/* A college wants a live search feature where typing a student's name instantly shows matching records from the database — without pressing any search button or reloading the page. */
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3H-Q1 Search — Sulav</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            margin: 40px;
-        }
-
-        .container {
-            max-width: 650px;
-            margin: auto;
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 0 8px #ccc;
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        #searchBox {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            box-sizing: border-box;
-            border: 1px solid #aaa;
-            border-radius: 5px;
-        }
-
-        #resultCount {
-            margin-top: 20px;
-            font-weight: bold;
-            color: #444;
-        }
-
-        #resultsList {
-            padding-left: 20px;
-        }
-
-        #resultsList li {
-            margin: 10px 0;
-            padding: 10px;
-            background-color: #f7f7f7;
-            border-radius: 4px;
-        }
-    </style>
+    <title>3H-Q1 Search</title>
 </head>
 <body>
-    <div class="container">
-        <h2>Live Student Search</h2>
 
-        <input
-            type="text"
-            id="searchBox"
-            placeholder="Search student name (min 2 chars)..."
-            onkeyup="liveSearch()"
-        >
-        <p id="resultCount">Found 0 result(s)</p>
-        <ul id="resultsList">
-            <li>Start typing to search.</li>
-        </ul>
-    </div>
+<h2>Live Student Search</h2>
 
-    <script>
-    async function liveSearch() {
-        const searchBox = document.getElementById("searchBox");
-        const resultsList = document.getElementById("resultsList");
-        const resultCount = document.getElementById("resultCount");
+<input type="text" id="search" onkeyup="searchStudent()" placeholder="Enter student name">
 
-        const searchTerm = searchBox.value.trim();
+<p id="count"></p>
+<div id="result"></div>
 
-        resultsList.innerHTML = "";
-        resultCount.textContent = "Found 0 result(s)";
+<script>
+async function searchStudent() {
+    let name = document.getElementById("search").value;
 
-        if (searchTerm.length < 1) {
-            resultsList.innerHTML = "<li>Start typing to search.</li>";
-            return;
-        }
-
-        try {
-            const response = await fetch(
-                "3H-q1-search.php?q=" +
-                encodeURIComponent(searchTerm)
-            );
-
-            if (!response.ok) {
-                throw new Error("HTTP error: " + response.status);
-            }
-
-            const data = await response.json();
-
-            if (data.error) {
-                resultCount.textContent = data.error;
-                return;
-            }
-
-            resultCount.textContent =
-                "Found " + data.length + " result(s)";
-
-            if (data.length === 0) {
-                resultsList.innerHTML =
-                    "<li>No matches found.</li>";
-                return;
-            }
-
-            data.forEach(student => {
-                const listItem = document.createElement("li");
-
-                listItem.textContent =
-                    "ID: " + student.id +
-                    " — " + student.name +
-                    " (" + student.dept +
-                    ", " + student.semester +
-                    ") — Score: " + student.score;
-
-                resultsList.appendChild(listItem);
-            });
-
-        } catch (error) {
-            console.error("Search error:", error);
-
-            resultCount.textContent =
-                "Unable to load student records.";
-
-            resultsList.innerHTML =
-                "<li>An error occurred while searching.</li>";
-        }
+    if (name.length < 1) {
+        document.getElementById("result").innerHTML = "";
+        document.getElementById("count").innerHTML = "";
+        return;
     }
+
+    let response = await fetch(
+        "3H-q1-search.php?q=" + encodeURIComponent(name)
+    );
+
+    let students = await response.json();
+
+    document.getElementById("count").innerHTML =
+        "Found " + students.length + " result(s)";
+
+    let output = "";
+
+    students.forEach(student => {
+        output += `
+            <p>
+                ID: ${student.id} -
+                ${student.name} -
+                ${student.dept} -
+                ${student.semester} -
+                Score: ${student.score}
+            </p>
+        `;
+    });
+
+    document.getElementById("result").innerHTML = output;
+}
 </script>
+
 </body>
 </html>
 
-/* Code from 3H-q1-search.php 
+
+/* Code from 3H-q1-search.php */
+
 <?php
+
 header("Content-Type: application/json");
 
-$conn = new mysqli(
-    "localhost",
-    "root",
-    "12345678",
-    "tu_lab_db"
-);
+$conn = new mysqli("localhost", "root", "12345678", "tu_lab_db");
 
 if ($conn->connect_error) {
-    echo json_encode([
-        "error" => "Database connection failed."
-    ]);
+    echo json_encode(["error" => "Database connection failed"]);
     exit;
 }
 
-$searchTerm = $_GET["q"] ?? "";
+$name = $_GET["q"] ?? "";
 
-if (strlen($searchTerm) < 1) {
-    echo json_encode([]);
-    $conn->close();
-    exit;
-}
-
-$sql = "
-    SELECT id, name, dept, semester, score
-    FROM students
-    WHERE name LIKE ?
-    LIMIT 10
-";
+$sql = "SELECT id, name, dept, semester, score
+        FROM students
+        WHERE name LIKE ?
+        LIMIT 10";
 
 $stmt = $conn->prepare($sql);
 
-if (!$stmt) {
-    echo json_encode([
-        "error" => "Query preparation failed."
-    ]);
-    $conn->close();
-    exit;
-}
-
-$searchPattern = "%" . $searchTerm . "%";
-
-$stmt->bind_param("s", $searchPattern);
+$search = "%" . $name . "%";
+$stmt->bind_param("s", $search);
 $stmt->execute();
 
 $result = $stmt->get_result();
-$students = $result->fetch_all(MYSQLI_ASSOC);
 
-echo json_encode($students);
+echo json_encode($result->fetch_all(MYSQLI_ASSOC));
 
 $stmt->close();
 $conn->close();
-?> */
+
+?>

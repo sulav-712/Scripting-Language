@@ -2,93 +2,89 @@
 
 <?php
 require_once 'value.php';
+
 interface PaymentMethod {
-    public function processPayment(float $amount): string;
-    public function getPaymentType(): string;
-    public function validatePayment(): bool;
+    function processPayment(float $amount): string;
+    function getPaymentType(): string;
+    function validatePayment(): bool;
 }
+
 abstract class OnlinePayment implements PaymentMethod {
-    protected string $transactionId;
     protected float $amount;
-    protected string $currency;
-    public function __construct(float $amount, string $currency) {
+    protected string $transactionId;
+
+    function __construct($amount, $currency) {
         $this->amount = $amount;
-        $this->currency = $currency;
         $this->transactionId = "TXN-" . strtoupper(substr(md5(rand()), 0, 6));
     }
-    abstract public function processPayment(float $amount): string;
-    public function getPaymentType(): string {
-        $ref = new ReflectionClass($this);
-        return $ref->getShortName();
+
+    function getPaymentType(): string {
+        return basename(str_replace('\\', '/', get_class($this)));
     }
 }
 
 class CreditCard extends OnlinePayment {
-    private string $cardNumber;
-    public function __construct(float $amount, string $currency, string $cardNumber) {
+    function __construct($amount, $currency, $card) {
         parent::__construct($amount, $currency);
-        $this->cardNumber = "XXXX-XXXX-XXXX-" . substr($cardNumber, -4);
-    }
-    public function validatePayment(): bool {
-        $originalLength = 16; // full original card number length as required
-        return $originalLength === 16 && $this->amount >= 100;
     }
 
-    public function processPayment(float $amount): string {
-        $fee = $amount * (1.5 / 100);
-        $this->amount = $amount - $fee;
-        return "CREDIT-CARD:" . $this->transactionId . ":Rs." . $this->amount;
+    function validatePayment(): bool {
+        return $this->amount >= 100;
+    }
+
+    function processPayment(float $amount): string {
+        $this->amount = $amount * .985;
+        return "CREDIT-CARD:$this->transactionId:Rs.$this->amount";
     }
 }
 
 class DigitalWallet extends OnlinePayment {
-    private string $walletProvider;
-    public function __construct(float $amount, string $currency, string $walletProvider) {
+    private string $provider;
+
+    function __construct($amount, $currency, $provider) {
         parent::__construct($amount, $currency);
-        $this->walletProvider = $walletProvider;
+        $this->provider = $provider;
     }
-    public function validatePayment(): bool {
+
+    function validatePayment(): bool {
         return $this->amount >= 10 && $this->amount <= 50000;
     }
-    public function processPayment(float $amount): string {
-        $d = 2; // assumed wallet fee/discount percentage
-        $this->amount = $amount * (1 - ($d / 100));
-        return "WALLET(" . $this->walletProvider . "):" . $this->transactionId . ":Rs." . $this->amount;
+
+    function processPayment(float $amount): string {
+        $this->amount = $amount * .98;
+        return "WALLET($this->provider):$this->transactionId:Rs.$this->amount";
     }
 }
 
 class CashOnDelivery implements PaymentMethod {
-    private string $address;
-    private float $amount;
-    public function __construct(string $address, float $amount) {
-        $this->address = $address;
-        $this->amount = $amount;
+    function __construct(private string $address, private float $amount) {}
+
+    function processPayment(float $amount): string {
+        return "COD:" . strtoupper(substr(md5($this->address), 0, 8)) . ":Rs.$amount";
     }
 
-    public function processPayment(float $amount): string {
-        return "COD:" . strtoupper(substr(md5($this->address), 0, 8)) . ":Rs." . $amount;
-    }
-
-    public function getPaymentType(): string {
+    function getPaymentType(): string {
         return "Cash on Delivery";
     }
 
-    public function validatePayment(): bool {
+    function validatePayment(): bool {
         return strlen($this->address) > 10;
     }
 }
-$regNumber = str_pad("123456789", 16, "0", STR_PAD_LEFT);
-$walletProvider = ($A % 2 === 0) ? "eSewa" : "Khalti";
+
+$amount = 10000 + $C * 100;
+$wallet = 5000 + $A * 500;
+$provider = $A % 2 ? "Khalti" : "eSewa";
 
 $payments = [
-    [new CreditCard(10000 + ($C * 100), "NPR", $regNumber), 10000 + ($C * 100)],
-    [new DigitalWallet(5000 + ($A * 500), "NPR", $walletProvider), 5000 + ($A * 500)],
-    [new CashOnDelivery("YourCity-" . $A . $B . $C . ", Nepal", 3000), 3000]
+    [new CreditCard($amount, "NPR", "1234567890000000"), $amount],
+    [new DigitalWallet($wallet, "NPR", $provider), $wallet],
+    [new CashOnDelivery("YourCity-$A$B$C, Nepal", 3000), 3000]
 ];
 
-foreach ($payments as [$payment, $originalAmount]) {
-    echo "--- Payment Method: " . $payment->getPaymentType() . " ---\n";
-    echo "Valid: " . ($payment->validatePayment() ? "1" : "0") . "\n";
-    echo $payment->processPayment($originalAmount) . "\n\n";
+foreach ($payments as [$p, $a]) {
+    echo "--- " . $p->getPaymentType() . " ---\n";
+    echo "Valid: " . ($p->validatePayment() ? 1 : 0) . "\n";
+    echo $p->processPayment($a) . "\n\n";
 }
 ?>

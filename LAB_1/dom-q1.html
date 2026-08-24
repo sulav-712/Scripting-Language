@@ -15,36 +15,28 @@
 <body>
   <div id="app"></div>
   <ul id="todo"></ul>
-
   <script>
     const A = 2;
     const B = 8;
     const C = 1;
     const D = 2;
-
     const app = document.getElementById("app");
     app.innerHTML = "<h1>To-Do List of Student" + A + "</h1>";
-
     const todo = document.getElementById("todo");
-
     for(let i = 0; i < B; i++) {
       const li = document.createElement("li");
       li.textContent = "Task " + (i + 1);
       todo.appendChild(li);
     }
-
     const firstItem = document.querySelector("#todo li");
     firstItem.textContent = "First task (priority " + C + ")";
     firstItem.style.color = "blue";
-
     const itemsBeforeRemove = document.querySelectorAll("#todo li");
     if (itemsBeforeRemove[1]) {
       itemsBeforeRemove[1].remove();
     }
-
     const items = document.querySelectorAll("#todo li");
     console.log("Total tasks: " + items.length);
-
     const lastItem = items[items.length - 1];
     if (lastItem) {
       lastItem.classList.add("done");

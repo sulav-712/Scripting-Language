@@ -1,243 +1,90 @@
-/* A registration form allows new students to be added to the database via AJAX. The form submits without reloading the page, and the user gets instant feedback. */
+/* A registration form allows new students to be added to the database via AJAX. */
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>3H-Q2 Registration — Sulav</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 30px;
-        }
-
-        form {
-            width: 350px;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin: 6px 0 12px;
-            box-sizing: border-box;
-        }
-
-        button {
-            padding: 8px 12px;
-            margin-right: 5px;
-            cursor: pointer;
-        }
-
-        #message {
-            color: green;
-            margin-top: 15px;
-        }
-
-        #error {
-            color: red;
-            margin-top: 15px;
-        }
-
-        li {
-            margin: 8px 0;
-        }
-    </style>
-</head>
-<body>
-    <h2>Student Registration</h2>
-    <form id="studentForm">
-        <label>Name</label>
-        <input type="text" id="name">
-
-        <label>Department</label>
-        <input type="text" id="dept">
-
-        <label>Semester</label>
-        <input type="text" id="semester">
-
-        <label>Score</label>
-        <input type="number" id="score" min="0" max="100" step="0.01">
-
-        <button type="submit" id="registerBtn">
-            Register 8.5.15.2
-        </button>
-
-        <button type="button" id="viewBtn">
-            View All Students
-        </button>
-    </form>
-    <div id="message"></div>
-    <div id="error"></div>
-    <div id="allStudents"></div>
-
-    <script>
-        const form = document.getElementById("studentForm");
-        const message = document.getElementById("message");
-        const error = document.getElementById("error");
-        const viewBtn = document.getElementById("viewBtn");
-        const allStudents = document.getElementById("allStudents");
-
-        form.addEventListener("submit", async function(event) {
-            event.preventDefault();
-
-            message.textContent = "";
-            error.textContent = "";
-
-            const student = {
-                name: document.getElementById("name").value.trim(),
-                dept: document.getElementById("dept").value.trim(),
-                semester: document.getElementById("semester").value.trim(),
-                score: document.getElementById("score").value
-            };
-
-            try {
-                const response = await fetch("3H-q2-insert.php", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(student)
-                });
-
-                const data = await response.json();
-
-                if (data.status === "success") {
-                    message.textContent =
-                        "✓ " + data.message +
-                        " (ID: " + data.new_id + ")";
-
-                    form.reset();
-                } else {
-                    error.textContent =
-                        data.error || data.message;
-                }
-            } catch (err) {
-                error.textContent = "Network error. Please try again.";
-            }
-        });
-
-        viewBtn.addEventListener("click", async function() {
-            allStudents.innerHTML = "Loading...";
-
-            try {
-                const response =
-                    await fetch("3H-q1-search.php?q=");
-
-                const students = await response.json();
-
-                if (students.error) {
-                    allStudents.innerHTML =
-                        "<p>" + students.error + "</p>";
-                    return;
-                }
-
-                let output =
-                    "<h3>Total Students: " +
-                    students.length + "</h3>";
-
-                if (students.length === 0) {
-                    output += "<p>No students found.</p>";
-                } else {
-                    output += "<ul>";
-
-                    students.forEach(student => {
-                        output += `
-                            <li>
-                                ID: ${student.id} —
-                                ${student.name}
-                                (${student.dept}, ${student.semester})
-                                — Score: ${student.score}
-                            </li>
-                        `;
-                    });
-                    output += "</ul>";
-                }
-
-                allStudents.innerHTML = output;
-            } catch (err) {
-                allStudents.innerHTML =
-                    "<p>Unable to load student records.</p>";
-            }
-        });
-    </script>
-</body>
-</html>
-
-/* Code from 3H-q2-insert.php
 <?php
-header("Content-Type: application/json");
+require_once 'value.php';
 
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    http_response_code(405);
-    echo json_encode(["error" => "Method Not Allowed"]);
-    exit;
-}
 $conn = new mysqli("localhost", "root", "12345678", "tu_lab_db");
 
 if ($conn->connect_error) {
-    echo json_encode([
-        "status" => "error",
-        "message" => "Database connection failed."
-    ]);
-    exit;
+    die("Connection failed");
 }
-$data = json_decode(file_get_contents("php://input"), true);
+?>
 
-$name = trim($data["name"] ?? "");
-$dept = trim($data["dept"] ?? "");
-$semester = trim($data["semester"] ?? "");
-$score = $data["score"] ?? 0;
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3H-Q2 Registration</title>
+</head>
+<body>
 
-if ($name === "") {
-    echo json_encode(["error" => "Name is required."]);
-    exit;
+<h2>Student Registration</h2>
+
+<form id="form">
+    Name: <input id="name"><br><br>
+    Department: <input id="dept"><br><br>
+    Semester: <input id="semester"><br><br>
+    Score: <input type="number" id="score"><br><br>
+
+    <button>Register</button>
+</form>
+
+<p id="message"></p>
+
+<script>
+document.getElementById("form").onsubmit = async function(e) {
+    e.preventDefault();
+
+    let data = {
+        name: name.value,
+        dept: dept.value,
+        semester: semester.value,
+        score: score.value
+    };
+
+    let response = await fetch("3H-q2-insert.php", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    });
+
+    let result = await response.json();
+
+    document.getElementById("message").textContent =
+        result.message || result.error;
+};
+</script>
+
+</body>
+</html>
+
+<?php
+/* Code from 3H-q2-insert.php */
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    $name = trim($data["name"] ?? "");
+    $dept = trim($data["dept"] ?? "");
+    $semester = trim($data["semester"] ?? "");
+    $score = $data["score"] ?? "";
+
+    if ($name == "" || $dept == "" || $semester == "") {
+        echo json_encode(["error" => "All fields are required."]);
+        exit;
+    }
+
+    $sql = "INSERT INTO students (name, dept, semester, score)
+            VALUES (?, ?, ?, ?)";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssd", $name, $dept, $semester, $score);
+
+    if ($stmt->execute()) {
+        echo json_encode([
+            "status" => "success",
+            "message" => "Student added successfully!"
+        ]);
+    }
 }
-
-if ($dept === "") {
-    echo json_encode(["error" => "Department is required."]);
-    exit;
-}
-
-if ($semester === "") {
-    echo json_encode(["error" => "Semester is required."]);
-    exit;
-}
-
-if (!is_numeric($score) || $score < 0 || $score > 100) {
-    echo json_encode([
-        "error" => "Score must be between 0 and 100."
-    ]);
-    exit;
-}
-
-$sql = "INSERT INTO students (name, dept, semester, score)
-        VALUES (?, ?, ?, ?)";
-
-$stmt = $conn->prepare($sql);
-
-if (!$stmt) {
-    echo json_encode([
-        "status" => "error",
-        "message" => "Database error: " . $conn->error
-    ]);
-    exit;
-}
-
-$score = (float) $score;
-$stmt->bind_param("sssd", $name, $dept, $semester, $score);
-
-if ($stmt->execute()) {
-    echo json_encode([
-        "status" => "success",
-        "message" => "Student $name added successfully!",
-        "new_id" => $conn->insert_id
-    ]);
-} else {
-    echo json_encode([
-        "status" => "error",
-        "message" => "Database error: " . $stmt->error
-    ]);
-}
-$stmt->close();
-$conn->close();
-?> */
+?>

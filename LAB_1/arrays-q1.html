@@ -10,7 +10,6 @@
 <body>
   <h1>Shopping List Manager</h1>
   <pre id="output"></pre>
-
   <script>
     const A = 2;
     const B = 8;
@@ -21,11 +20,8 @@
     function log(msg){
       output.textContent += msg + '\n';
     }
-
     let items = ['Rice', 'Oil', 'Sugar'];
-
     items.push('Salt', 'Tea');
-
     items.pop();
     log("After pop: " + items.join(','));
 
@@ -42,10 +38,8 @@
     }
 
     const discount = (price) => price - (price * (D/100));
-
     const bill = totalPrice(50 + C, A);
     const final = discount(bill);
-
     log("Bill: " + bill);
     log("Final after " + D + "% discount: " + final);    
   </script>

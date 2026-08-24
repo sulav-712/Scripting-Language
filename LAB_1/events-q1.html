@@ -16,15 +16,12 @@
       <button type="submit">Submit</button>
     </form>
   </div>
-
   <script>
     const A = 2;
     const B = 8;
     const C = 1;
     const D = 2;
-
     let clicks = 0;
-
     const btn = document.getElementById('btn');
     const count = document.getElementById('count');
     const outer = document.getElementById('outer');
@@ -35,17 +32,14 @@
       count.textContent = "Clicks: " + clicks;
       console.log(e.type);
       console.log(e.target.tagName);
-
       if (clicks === B) {
         console.log("Reached " + B + " clicks, Student" + A);
       }
     });
-
     form.addEventListener("submit", function(e) {
       e.preventDefault();
       console.log("Form submit blocked by Student" + C + D);
     });
-
     outer.addEventListener("click", function() {
       console.log("Bubbled to outer");
     })
